@@ -16,6 +16,9 @@ SRCREV = "b63f3f52cb393e3287352cf63f0caef31a33ab63"
 KERNEL_SRC ?= "git://git.freescale.com/imx/linux-imx.git;protocol=git"
 SRC_URI = "${KERNEL_SRC};branch=${SRCBRANCH}"
 
+SRC_URI += "file://0001-ARM-imx-imx6ul-add-PHY-KSZ8081-new-silicon-revision-.patch \
+            file://0001-MLK-13379-ASoC-wm8960-workaround-no-sound-issue-in-m.patch "
+
 DEFAULT_PREFERENCE = "1"
 
 DO_CONFIG_V7_COPY = "no"
