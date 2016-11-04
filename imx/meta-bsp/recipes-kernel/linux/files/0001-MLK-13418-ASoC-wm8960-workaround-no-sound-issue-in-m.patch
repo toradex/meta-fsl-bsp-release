@@ -1,0 +1,48 @@
+From 1498fbd9678527aea93fe0f1d09771c96ecdda45 Mon Sep 17 00:00:00 2001
+From: Shengjiu Wang <shengjiu.wang@freescale.com>
+Date: Mon, 24 Oct 2016 10:15:37 +0800
+Subject: [PATCH] MLK-13418: ASoC: wm8960: workaround no sound issue in master
+ mode
+
+The input MCLK is 12.288MHz, The desired output sysclk is 11.2896MHz
+the sample rate is 44100Hz, with the pllprescale=2, postscale=sysclkdiv=1,
+some chip may have wrong bclk and lrclk output in master mode. then there
+will be no sound.
+With the pllprescale=1, postscale=2, the output clock is correct. so use
+this configuration to workaround this issue.
+Tested 8k/11k/16k/22k/32k/44k/48kHz case.
+
+Signed-off-by: Shengjiu Wang <shengjiu.wang@freescale.com>
+---
+ sound/soc/codecs/wm8960.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+
+diff --git a/sound/soc/codecs/wm8960.c b/sound/soc/codecs/wm8960.c
+index 28eb426..2b25cb1 100644
+--- a/sound/soc/codecs/wm8960.c
++++ b/sound/soc/codecs/wm8960.c
+@@ -1020,11 +1020,6 @@ static bool is_pll_freq_available(unsigned int source, unsigned int target)
+ 	target *= 4;
+ 	Ndiv = target / source;
+ 
+-	if (Ndiv < 6) {
+-		source >>= 1;
+-		Ndiv = target / source;
+-	}
+-
+ 	if ((Ndiv < 6) || (Ndiv > 12))
+ 		return false;
+ 
+@@ -1135,6 +1130,9 @@ static int wm8960_set_dai_pll(struct snd_soc_dai *codec_dai, int pll_id,
+ 	if (pll_id == WM8960_SYSCLK_AUTO)
+ 		return 0;
+ 
++	if (is_pll_freq_available(freq_in, freq_out))
++		return -EINVAL;
++
+ 	return wm8960_set_pll(codec, freq_in, freq_out);
+ }
+ 
+-- 
+1.9.1
+
