@@ -1,0 +1,36 @@
+From dd3869b02d715524bae2a5f6f673ad4379ab32b6 Mon Sep 17 00:00:00 2001
+From: Shengjiu Wang <shengjiu.wang@freescale.com>
+Date: Fri, 4 Nov 2016 15:47:22 +0800
+Subject: [PATCH 2/2] MLK-13422: ASoC: wm8960: fix the pitch shift issue after
+ suspend/resume
+
+Before suspend, the sysclock select pll out as source, after resume
+sysclock select the mlck as the source, so the sample rate is changed
+the sound's pitch is shifted.
+The issue is caused by the commit c1845da3d08de6cf2642fec74f7a46d05de6314d
+Which removed the wm8960_configure_clocking() when bias level changes
+from STANDBY to PREPARE, this patch is to add it back.
+
+Signed-off-by: Shengjiu Wang <shengjiu.wang@freescale.com>
+---
+ sound/soc/codecs/wm8960.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/sound/soc/codecs/wm8960.c b/sound/soc/codecs/wm8960.c
+index 2b25cb1..e218041 100644
+--- a/sound/soc/codecs/wm8960.c
++++ b/sound/soc/codecs/wm8960.c
+@@ -814,6 +814,10 @@ static int wm8960_set_bias_level_out3(struct snd_soc_codec *codec,
+ 				}
+ 			}
+ 
++			ret = wm8960_configure_clocking(codec);
++			if (ret)
++				return ret;
++
+ 			/* Set VMID to 2x50k */
+ 			snd_soc_update_bits(codec, WM8960_POWER1, 0x180, 0x80);
+ 			break;
+-- 
+1.9.1
+

@@ -1,8 +1,8 @@
 From 1498fbd9678527aea93fe0f1d09771c96ecdda45 Mon Sep 17 00:00:00 2001
 From: Shengjiu Wang <shengjiu.wang@freescale.com>
 Date: Mon, 24 Oct 2016 10:15:37 +0800
-Subject: [PATCH] MLK-13418: ASoC: wm8960: workaround no sound issue in master
- mode
+Subject: [PATCH 1/2] MLK-13418: ASoC: wm8960: workaround no sound issue in
+ master mode
 
 The input MCLK is 12.288MHz, The desired output sysclk is 11.2896MHz
 the sample rate is 44100Hz, with the pllprescale=2, postscale=sysclkdiv=1,
