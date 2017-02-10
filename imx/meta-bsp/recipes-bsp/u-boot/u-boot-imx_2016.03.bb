@@ -17,6 +17,11 @@ S = "${WORKDIR}/git"
 
 inherit fsl-u-boot-localversion
 
+SRC_URI += "file://0001-MLK-13602-1-mx6-Add-i.MX6ULL-fused-modules-checking-.patch \
+            file://0002-MLK-13602-2-epdc-Add-disable-fuse-checking.patch \
+            file://0003-MLK-13602-3-mx6ullevk-arm2-Enable-module-fuse-checki.patch \
+"
+
 LOCALVERSION ?= "-${SRCBRANCH}"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
