@@ -1,0 +1,93 @@
+From 2b007184a97c1e864025c9c40aeb9a465594b96a Mon Sep 17 00:00:00 2001
+From: Bai Ping <ping.bai@nxp.com>
+Date: Tue, 13 Dec 2016 16:57:58 +0800
+Subject: [PATCH 6/7] MLK-13601-02 ARM: imx: Add fuse check support for imx6ull
+
+On i.MX6ULL, some part can run at 1GHz or 800MHz setpoint.
+we need to use the speed grading fuse to disable the unsupported
+setpoint. speed grading fuse define as below:
+    2'b00: Reserved;
+    2'b01: 528MHz;
+    2'b10: 792MHz;
+    2b'11: 996Mhz;
+
+Signed-off-by: Bai Ping <ping.bai@nxp.com>
+(cherry picked from commit e8b9e8acb5ee44f48e048d744ccae4b6b02ef6a6)
+---
+ arch/arm/mach-imx/mach-imx6ul.c | 33 +++++++++++++++++++++++++--------
+ 1 file changed, 25 insertions(+), 8 deletions(-)
+
+diff --git a/arch/arm/mach-imx/mach-imx6ul.c b/arch/arm/mach-imx/mach-imx6ul.c
+index 034db69..104d9a5 100644
+--- a/arch/arm/mach-imx/mach-imx6ul.c
++++ b/arch/arm/mach-imx/mach-imx6ul.c
+@@ -59,6 +59,7 @@ static void __init imx6ul_enet_phy_init(void)
+ #define OCOTP_CFG3			0x440
+ #define OCOTP_CFG3_SPEED_SHIFT		16
+ #define OCOTP_CFG3_SPEED_696MHZ		0x2
++#define OCOTP_CFG3_SPEED_1_GHZ		0x3
+ 
+ static void __init imx6ul_opp_check_speed_grading(struct device *cpu_dev)
+ {
+@@ -66,7 +67,11 @@ static void __init imx6ul_opp_check_speed_grading(struct device *cpu_dev)
+ 	void __iomem *base;
+ 	u32 val;
+ 
+-	np = of_find_compatible_node(NULL, NULL, "fsl,imx6ul-ocotp");
++	if (cpu_is_imx6ul())
++		np = of_find_compatible_node(NULL, NULL, "fsl,imx6ul-ocotp");
++	else
++		np = of_find_compatible_node(NULL, NULL, "fsl,imx6ull-ocotp");
++
+ 	if (!np) {
+ 		pr_warn("failed to find ocotp node\n");
+ 		return;
+@@ -82,17 +87,30 @@ static void __init imx6ul_opp_check_speed_grading(struct device *cpu_dev)
+ 	 * Speed GRADING[1:0] defines the max speed of ARM:
+ 	 * 2b'00: Reserved;
+ 	 * 2b'01: 528000000Hz;
+-	 * 2b'10: 700000000Hz;
+-	 * 2b'11: Reserved;
++	 * 2b'10: 700000000Hz(i.MX6UL), 800000000Hz(i.MX6ULL);
++	 * 2b'11: Reserved(i.MX6UL), 1GHz(i.MX6ULL);
+ 	 * We need to set the max speed of ARM according to fuse map.
+ 	 */
+ 	val = readl_relaxed(base + OCOTP_CFG3);
+ 	val >>= OCOTP_CFG3_SPEED_SHIFT;
+ 	val &= 0x3;
++	if (cpu_is_imx6ul()) {
++		if (val < OCOTP_CFG3_SPEED_696MHZ) {
++			if (dev_pm_opp_disable(cpu_dev, 696000000))
++				pr_warn("Failed to disable 696MHz OPP\n");
++		}
++	}
++
++	if (cpu_is_imx6ull()) {
++		if (val != OCOTP_CFG3_SPEED_1_GHZ) {
++			if (dev_pm_opp_disable(cpu_dev, 996000000))
++				pr_warn("Failed to disable 996MHz OPP\n");
++		}
+ 
+-	if (val != OCOTP_CFG3_SPEED_696MHZ) {
+-		if (dev_pm_opp_disable(cpu_dev, 696000000))
+-			pr_warn("Failed to disable 696MHz OPP\n");
++		if (val != OCOTP_CFG3_SPEED_696MHZ) {
++			if (dev_pm_opp_disable(cpu_dev, 792000000))
++				pr_warn("Failed to disable 792MHz OPP\n");
++		}
+ 	}
+ 	iounmap(base);
+ 
+@@ -161,8 +179,7 @@ static void __init imx6ul_init_irq(void)
+ static void __init imx6ul_init_late(void)
+ {
+ 	if (IS_ENABLED(CONFIG_ARM_IMX6Q_CPUFREQ)) {
+-		if (cpu_is_imx6ul())
+-			imx6ul_opp_init();
++		imx6ul_opp_init();
+ 		platform_device_register_simple("imx6q-cpufreq", -1, NULL, 0);
+ 	}
+ 
+-- 
+1.9.1
+

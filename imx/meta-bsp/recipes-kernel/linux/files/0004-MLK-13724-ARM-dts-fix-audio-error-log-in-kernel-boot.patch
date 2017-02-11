@@ -1,0 +1,86 @@
+From 7d8b179dc6c2111439f5af8cc9ce32f6cca03124 Mon Sep 17 00:00:00 2001
+From: Shengjiu Wang <shengjiu.wang@freescale.com>
+Date: Wed, 11 Jan 2017 15:48:46 +0800
+Subject: [PATCH 4/7] MLK-13724: ARM: dts: fix audio error log in kernel boot
+ up
+
+Below error happen when boot up imx6ul/imx6ull 9x9 board. which is caused by
+that dts is not updated in commit 0a4c5844f91de8 ("MLK-12059 ARM: dts:
+imx6ul-14x14-evk: add mic detect gpio to support headset Jack")
+
+[    1.871240] imx-wm8960 sound: ASoC: Failed to add route HP_L -> direct -> Headset Jack
+[    1.884002] imx-wm8960 sound: ASoC: Failed to add route HP_R -> direct -> Headset Jack
+[    1.896532] imx-wm8960 sound: ASoC: Failed to add route Hp MIC -> direct -> LINPUT2
+[    1.909936] imx-wm8960 sound: ASoC: Failed to add route Hp MIC -> direct -> LINPUT3
+[    1.923511] imx-wm8960 sound: ASoC: Failed to add route MICB -> direct -> Hp MIC
+
+Signed-off-by: Shengjiu Wang <shengjiu.wang@freescale.com>
+Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
+(cherry picked from commit 55eda3c89671c4463df0539043e139c419c8126d)
+(cherry picked from commit d1941e40d93746c787e55e9dff1a309c25ace665)
+---
+ arch/arm/boot/dts/imx6ul-9x9-evk.dts  | 11 ++++++-----
+ arch/arm/boot/dts/imx6ull-9x9-evk.dts | 11 ++++++-----
+ 2 files changed, 12 insertions(+), 10 deletions(-)
+
+diff --git a/arch/arm/boot/dts/imx6ul-9x9-evk.dts b/arch/arm/boot/dts/imx6ul-9x9-evk.dts
+index 7a6e8c8..edc1ff1 100644
+--- a/arch/arm/boot/dts/imx6ul-9x9-evk.dts
++++ b/arch/arm/boot/dts/imx6ul-9x9-evk.dts
+@@ -102,18 +102,19 @@
+ 		 */
+ 		hp-det = <3 0>;
+ 		hp-det-gpios = <&gpio5 4 0>;
++		mic-det-gpios = <&gpio5 4 0>;
+ 		audio-routing =
+-			"Headset Jack", "HP_L",
+-			"Headset Jack", "HP_R",
++			"Headphone Jack", "HP_L",
++			"Headphone Jack", "HP_R",
+ 			"Ext Spk", "SPK_LP",
+ 			"Ext Spk", "SPK_LN",
+ 			"Ext Spk", "SPK_RP",
+ 			"Ext Spk", "SPK_RN",
+-			"LINPUT2", "Hp MIC",
+-			"LINPUT3", "Hp MIC",
++			"LINPUT2", "Mic Jack",
++			"LINPUT3", "Mic Jack",
+ 			"RINPUT1", "Main MIC",
+ 			"RINPUT2", "Main MIC",
+-			"Hp MIC", "MICB",
++			"Mic Jack", "MICB",
+ 			"Main MIC", "MICB",
+ 			"CPU-Playback", "ASRC-Playback",
+ 			"Playback", "CPU-Playback",
+diff --git a/arch/arm/boot/dts/imx6ull-9x9-evk.dts b/arch/arm/boot/dts/imx6ull-9x9-evk.dts
+index 57f7207..5be1eb2 100644
+--- a/arch/arm/boot/dts/imx6ull-9x9-evk.dts
++++ b/arch/arm/boot/dts/imx6ull-9x9-evk.dts
+@@ -103,18 +103,19 @@
+ 		 */
+ 		hp-det = <3 0>;
+ 		hp-det-gpios = <&gpio5 4 0>;
++		mic-det-gpios = <&gpio5 4 0>;
+ 		audio-routing =
+-			"Headset Jack", "HP_L",
+-			"Headset Jack", "HP_R",
++			"Headphone Jack", "HP_L",
++			"Headphone Jack", "HP_R",
+ 			"Ext Spk", "SPK_LP",
+ 			"Ext Spk", "SPK_LN",
+ 			"Ext Spk", "SPK_RP",
+ 			"Ext Spk", "SPK_RN",
+-			"LINPUT2", "Hp MIC",
+-			"LINPUT3", "Hp MIC",
++			"LINPUT2", "Mic Jack",
++			"LINPUT3", "Mic Jack",
+ 			"RINPUT1", "Main MIC",
+ 			"RINPUT2", "Main MIC",
+-			"Hp MIC", "MICB",
++			"Mic Jack", "MICB",
+ 			"Main MIC", "MICB",
+ 			"CPU-Playback", "ASRC-Playback",
+ 			"Playback", "CPU-Playback",
+-- 
+1.9.1
+

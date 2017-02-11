@@ -18,7 +18,15 @@ SRC_URI = "${KERNEL_SRC};branch=${SRCBRANCH}"
 
 SRC_URI += "file://0001-ARM-imx-imx6ul-add-PHY-KSZ8081-new-silicon-revision-.patch \
             file://0001-MLK-13418-ASoC-wm8960-workaround-no-sound-issue-in-m.patch \
-            file://0002-MLK-13422-ASoC-wm8960-fix-the-pitch-shift-issue-afte.patch "
+            file://0002-MLK-13422-ASoC-wm8960-fix-the-pitch-shift-issue-afte.patch \
+            file://0001-MLK-13748-ARM-dts-imx6ull-9x9-evk-ldo-add-ldo-enable.patch \
+            file://0002-MLK-13766-ARM-dts-imx6ull-9x9-evk-correct-the-xnur-p.patch \
+            file://0003-MLK-13774-ARM-imx-fix-lpddr2-busfreq-support-on-i.mx.patch \
+            file://0004-MLK-13724-ARM-dts-fix-audio-error-log-in-kernel-boot.patch \
+            file://0005-MLK-13601-01-ARM-dts-imx-update-the-setpoint-for-imx.patch \
+            file://0006-MLK-13601-02-ARM-imx-Add-fuse-check-support-for-imx6.patch \
+            file://0007-MLK-13616-ARM-imx-Add-low-power-run-voltage-change-s.patch \
+"
 
 DEFAULT_PREFERENCE = "1"
 

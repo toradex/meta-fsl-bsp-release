@@ -1,0 +1,126 @@
+From 3d6782566208aad7e2967052d1ee971fc95ad821 Mon Sep 17 00:00:00 2001
+From: Bai Ping <ping.bai@nxp.com>
+Date: Mon, 21 Nov 2016 14:56:12 +0800
+Subject: [PATCH 7/7] MLK-13616 ARM: imx: Add low power run voltage change
+ support on i.MX6ULL
+
+On i.MX6ULL, if all PLLs is bypassed in low power run mode, we can decrease
+the VDD_ARM_IN and VDD_SOC_IN voltage to 0.925V to save power. a 25mV margin
+is added to cover IR drop and board tolerance.
+
+Add low power run voltage change support for i.MX6ULL.
+
+Signed-off-by: Bai Ping <ping.bai@nxp.com>
+---
+ arch/arm/mach-imx/busfreq-imx.c | 26 +++++++++++++++++++++++++-
+ drivers/cpufreq/imx6q-cpufreq.c |  4 ++--
+ include/linux/busfreq-imx.h     |  5 ++++-
+ 3 files changed, 31 insertions(+), 4 deletions(-)
+
+diff --git a/arch/arm/mach-imx/busfreq-imx.c b/arch/arm/mach-imx/busfreq-imx.c
+index aa228ba..25d86d3 100644
+--- a/arch/arm/mach-imx/busfreq-imx.c
++++ b/arch/arm/mach-imx/busfreq-imx.c
+@@ -40,6 +40,8 @@
+ #define LOW_AUDIO_CLK		50000000
+ #define HIGH_AUDIO_CLK		100000000
+ 
++#define LOW_POWER_RUN_VOLTAGE	950000
++
+ #define MMDC_MDMISC_DDR_TYPE_DDR3	0
+ #define MMDC_MDMISC_DDR_TYPE_LPDDR2	1
+ 
+@@ -63,6 +65,7 @@ static int high_bus_count, med_bus_count, audio_bus_count, low_bus_count;
+ static unsigned int ddr_low_rate;
+ static int cur_bus_freq_mode;
+ static u32 org_arm_rate;
++static int origin_arm_volt, origin_soc_volt;
+ 
+ extern unsigned long iram_tlb_phys_addr;
+ extern int unsigned long iram_tlb_base_addr;
+@@ -165,8 +168,13 @@ static struct clk *origin_step_parent;
+  */
+ static void imx6ull_lower_cpu_rate(bool enter)
+ {
+-	if (enter)
++	int ret;
++
++	if (enter) {
+ 		org_arm_rate = clk_get_rate(arm_clk);
++		origin_arm_volt = regulator_get_voltage(arm_reg);
++		origin_soc_volt = regulator_get_voltage(soc_reg);
++	}
+ 
+ 	imx_clk_set_parent(pll1_bypass_clk, pll1_bypass_src_clk);
+ 	imx_clk_set_parent(pll1_sw_clk, pll1_sys_clk);
+@@ -176,7 +184,23 @@ static void imx6ull_lower_cpu_rate(bool enter)
+ 		imx_clk_set_parent(step_clk, osc_clk);
+ 		imx_clk_set_parent(pll1_sw_clk, step_clk);
+ 		imx_clk_set_rate(arm_clk, LPAPM_CLK);
++		if (uart_from_osc) {
++			ret = regulator_set_voltage_tol(arm_reg, LOW_POWER_RUN_VOLTAGE, 0);
++			if (ret)
++				pr_err("set arm reg voltage failed\n");
++			ret = regulator_set_voltage_tol(soc_reg, LOW_POWER_RUN_VOLTAGE, 0);
++			if (ret)
++				pr_err("set soc reg voltage failed\n");
++		}
+ 	} else {
++		if (uart_from_osc) {
++			ret = regulator_set_voltage_tol(soc_reg, origin_soc_volt, 0);
++			if (ret)
++				pr_err("set soc reg voltage failed\n");
++			ret = regulator_set_voltage_tol(arm_reg, origin_arm_volt, 0);
++			if (ret)
++				pr_err("set arm reg voltage failed\n");
++		}
+ 		imx_clk_set_parent(step_clk, origin_step_parent);
+ 		imx_clk_set_parent(pll1_sw_clk, step_clk);
+ 		imx_clk_set_rate(arm_clk, org_arm_rate);
+diff --git a/drivers/cpufreq/imx6q-cpufreq.c b/drivers/cpufreq/imx6q-cpufreq.c
+index 77894a1..c34a436 100644
+--- a/drivers/cpufreq/imx6q-cpufreq.c
++++ b/drivers/cpufreq/imx6q-cpufreq.c
+@@ -28,9 +28,9 @@
+ #define FREQ_198_MHZ		198000
+ #define FREQ_24_MHZ		24000
+ 
+-static struct regulator *arm_reg;
++struct regulator *arm_reg;
+ static struct regulator *pu_reg;
+-static struct regulator *soc_reg;
++struct regulator *soc_reg;
+ static struct regulator *dc_reg;
+ 
+ static struct clk *arm_clk;
+diff --git a/include/linux/busfreq-imx.h b/include/linux/busfreq-imx.h
+index d309f3d..2a2459a 100644
+--- a/include/linux/busfreq-imx.h
++++ b/include/linux/busfreq-imx.h
+@@ -1,5 +1,5 @@
+ /*
+- * Copyright 2012-2015 Freescale Semiconductor, Inc. All Rights Reserved.
++ * Copyright 2012-2016 Freescale Semiconductor, Inc. All Rights Reserved.
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License version 2 as
+@@ -10,6 +10,7 @@
+ #define __ASM_ARCH_MXC_BUSFREQ_H__
+ 
+ #include <linux/notifier.h>
++#include <linux/regulator/consumer.h>
+ 
+ /*
+  * This enumerates busfreq low power mode entry and exit.
+@@ -42,6 +43,8 @@ enum bus_freq_mode {
+ };
+ 
+ #ifdef CONFIG_CPU_FREQ
++extern struct regulator *arm_reg;
++extern struct regulator *soc_reg;
+ void request_bus_freq(enum bus_freq_mode mode);
+ void release_bus_freq(enum bus_freq_mode mode);
+ int register_busfreq_notifier(struct notifier_block *nb);
+-- 
+1.9.1
+

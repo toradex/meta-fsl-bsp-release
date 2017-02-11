@@ -1,0 +1,42 @@
+From b5f30c05070d04c8714bf41deb26fe353035cbe5 Mon Sep 17 00:00:00 2001
+From: Bai Ping <ping.bai@nxp.com>
+Date: Thu, 19 Jan 2017 14:07:38 +0800
+Subject: [PATCH 3/7] MLK-13774 ARM: imx: fix lpddr2 busfreq support on
+ i.mx6ull
+
+Fix busfreq support on i.MX6ULL LPDDR2 board.
+
+Signed-off-by: Bai Ping <ping.bai@nxp.com>
+(cherry picked from commit 4306d7689b330d67ccf6586e365465f217d3df09)
+(cherry picked from commit befb8efe8ed328e9aa9bfa59d6a491a8b27fd659)
+
+Conflicts:
+	arch/arm/mach-imx/busfreq_lpddr2.c
+---
+ arch/arm/mach-imx/busfreq_lpddr2.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/mach-imx/busfreq_lpddr2.c b/arch/arm/mach-imx/busfreq_lpddr2.c
+index cd20893..eeb85af 100644
+--- a/arch/arm/mach-imx/busfreq_lpddr2.c
++++ b/arch/arm/mach-imx/busfreq_lpddr2.c
+@@ -1,5 +1,6 @@
+ /*
+- * Copyright (C) 2011-2015 Freescale Semiconductor, Inc. All Rights Reserved.
++ * Copyright (C) 2011-2016 Freescale Semiconductor, Inc. All Rights Reserved.
++ * Copyright 2017 NXP.
+  */
+ 
+ /*
+@@ -159,7 +160,7 @@ int init_mmdc_lpddr2_settings(struct platform_device *busfreq_pdev)
+ 		mx6_change_lpddr2_freq = (void *)fncpy(
+ 			(void *)ddr_freq_change_iram_base,
+ 			&mx6_lpddr2_freq_change, ddr_code_size);
+-	if (cpu_is_imx6sx() || cpu_is_imx6ul())
++	if (cpu_is_imx6sx() || cpu_is_imx6ul() || cpu_is_imx6ull())
+ 		mx6_change_lpddr2_freq = (void *)fncpy(
+ 			(void *)ddr_freq_change_iram_base,
+ 			&imx6_up_lpddr2_freq_change, ddr_code_size);
+-- 
+1.9.1
+

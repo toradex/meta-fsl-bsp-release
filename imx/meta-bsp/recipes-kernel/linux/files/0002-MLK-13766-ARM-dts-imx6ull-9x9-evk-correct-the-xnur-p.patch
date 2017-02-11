@@ -1,0 +1,43 @@
+From da91d2229ab93c219dc279ccfdcd61900e225123 Mon Sep 17 00:00:00 2001
+From: Haibo Chen <haibo.chen@nxp.com>
+Date: Thu, 19 Jan 2017 14:14:36 +0800
+Subject: [PATCH 2/7] MLK-13766 ARM: dts: imx6ull-9x9-evk: correct the xnur pad
+ setting
+
+Setting the xnur-gpio to GPIO_ACTIVE_LOW, otherwise touch calibration
+may has some issue.
+
+Signed-off-by: Haibo Chen <haibo.chen@nxp.com>
+(cherry picked from commit 4e108b15cdc57859886e1b9b4bd442e5d1df3904)
+(cherry picked from commit 8a4865cd1406594bc6a7ae7efdfa37d6968d8aae)
+---
+ arch/arm/boot/dts/imx6ull-9x9-evk.dts | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/boot/dts/imx6ull-9x9-evk.dts b/arch/arm/boot/dts/imx6ull-9x9-evk.dts
+index 9ca45fa..57f7207 100644
+--- a/arch/arm/boot/dts/imx6ull-9x9-evk.dts
++++ b/arch/arm/boot/dts/imx6ull-9x9-evk.dts
+@@ -1,5 +1,6 @@
+ /*
+  * Copyright (C) 2016 Freescale Semiconductor, Inc.
++ * Copyright 2017 NXP
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License version 2 as
+@@ -738,10 +739,10 @@
+ &tsc {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_tsc>;
+-	status = "okay";
+-	xnur-gpio = <&gpio1 3 0>;
++	xnur-gpio = <&gpio1 3 GPIO_ACTIVE_LOW>;
+ 	measure_delay_time = <0xffff>;
+ 	pre_charge_time = <0xfff>;
++	status = "okay";
+ };
+ 
+ &uart1 {
+-- 
+1.9.1
+
