@@ -23,6 +23,7 @@ SRC_URI += "file://0001-MLK-13602-1-mx6-Add-i.MX6ULL-fused-modules-checking-.pat
 "
 
 LOCALVERSION ?= "-${SRCBRANCH}"
+LOCALVERSION = "-imx_v2016.03_4.1.15_2.0.2"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 COMPATIBLE_MACHINE = "(mx6|mx6ul|mx7)"
