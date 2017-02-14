@@ -1,4 +1,4 @@
-From da91d2229ab93c219dc279ccfdcd61900e225123 Mon Sep 17 00:00:00 2001
+From 217f2b23a71f4d83c97926c029f219c478bb6716 Mon Sep 17 00:00:00 2001
 From: Haibo Chen <haibo.chen@nxp.com>
 Date: Thu, 19 Jan 2017 14:14:36 +0800
 Subject: [PATCH 2/7] MLK-13766 ARM: dts: imx6ull-9x9-evk: correct the xnur pad

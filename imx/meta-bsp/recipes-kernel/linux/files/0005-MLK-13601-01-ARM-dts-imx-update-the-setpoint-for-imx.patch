@@ -1,51 +1,48 @@
-From 73d1f20ddce7a4c76acb1483d680e5d13fc62d97 Mon Sep 17 00:00:00 2001
+From e9666d7558819319d6ca5dd1048d22649fc332ee Mon Sep 17 00:00:00 2001
 From: Bai Ping <ping.bai@nxp.com>
 Date: Tue, 13 Dec 2016 16:51:59 +0800
 Subject: [PATCH 5/7] MLK-13601-01 ARM: dts: imx: update the setpoint for
  imx6ull
 
-According to the latest datasheet(Rev.0,09/2016), two new setpoints
-are added on i.MX6ULL, 996MHz/1.25V and 792MHz/1.2V. these two setpoints
-can only be enabled when LDO is enabled. In order to cover IR drop and
-board tolerance, we add a 25mV margin to the voltage.
+According to the latest datasheet(Rev.0,09/2016), one new setpoints
+is added on i.MX6ULL, 792MHz/1.2V. this setpoints can only be enabled
+when LDO is enabled. In order to cover IR drop and board tolerance,
+we add a 25mV margin to the voltage.
 
 Signed-off-by: Bai Ping <ping.bai@nxp.com>
 (cherry picked from commit 48e73a70e9a901bee547975201d7ccebbc7893b6)
 (cherry picked from commit 0772724b5c2980e73a4f2914a8dd88bd1cc6916d)
 ---
- arch/arm/boot/dts/imx6ull-14x14-ddr3-arm2-ldo.dts | 4 ++++
- arch/arm/boot/dts/imx6ull.dtsi                    | 4 ++++
- 2 files changed, 8 insertions(+)
+ arch/arm/boot/dts/imx6ull-14x14-ddr3-arm2-ldo.dts | 2 ++
+ arch/arm/boot/dts/imx6ull.dtsi                    | 2 ++
+ 2 files changed, 4 insertions(+)
 
 diff --git a/arch/arm/boot/dts/imx6ull-14x14-ddr3-arm2-ldo.dts b/arch/arm/boot/dts/imx6ull-14x14-ddr3-arm2-ldo.dts
-index c0fa279..9fea5be 100644
+index c0fa279..94b3ef0 100644
 --- a/arch/arm/boot/dts/imx6ull-14x14-ddr3-arm2-ldo.dts
 +++ b/arch/arm/boot/dts/imx6ull-14x14-ddr3-arm2-ldo.dts
-@@ -11,11 +11,15 @@
+@@ -11,11 +11,13 @@
  &cpu0 {
  	operating-points = <
  		/* kHz	uV */
-+		996000	1275000
 +		792000	1225000
  		528000	1175000
  		99000	950000
  	>;
  	fsl,soc-operating-points = <
  		/* KHz	uV */
-+		996000	1175000
 +		792000	1175000
  		528000	1175000
  		99000	1175000
  	>;
 diff --git a/arch/arm/boot/dts/imx6ull.dtsi b/arch/arm/boot/dts/imx6ull.dtsi
-index d8b6706..ef90ec8 100644
+index d8b6706..ded7def 100644
 --- a/arch/arm/boot/dts/imx6ull.dtsi
 +++ b/arch/arm/boot/dts/imx6ull.dtsi
-@@ -57,12 +57,16 @@
+@@ -57,12 +57,14 @@
  			clock-latency = <61036>; /* two CLK32 periods */
  			operating-points = <
  				/* kHz	uV */
-+				996000	1275000
 +				792000	1225000
  				528000	1175000
  				396000	1025000
@@ -53,7 +50,6 @@ index d8b6706..ef90ec8 100644
  			>;
  			fsl,soc-operating-points = <
  				/* KHz	uV */
-+				996000	1175000
 +				792000	1175000
  				528000	1175000
  				396000	1175000

@@ -1,4 +1,4 @@
-From 1170de48bfa30a9ea226f6ef9d8494a430eb4148 Mon Sep 17 00:00:00 2001
+From 95950b5815e23bee26efff3b933005eb834bbb75 Mon Sep 17 00:00:00 2001
 From: Robin Gong <yibin.gong@nxp.com>
 Date: Fri, 6 Jan 2017 11:05:48 +0800
 Subject: [PATCH 1/7] MLK-13748: ARM: dts: imx6ull-9x9-evk-ldo: add ldo enable

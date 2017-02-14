@@ -1,4 +1,4 @@
-From 3d6782566208aad7e2967052d1ee971fc95ad821 Mon Sep 17 00:00:00 2001
+From ce002032210df159d2cfbe005825f02582603aec Mon Sep 17 00:00:00 2001
 From: Bai Ping <ping.bai@nxp.com>
 Date: Mon, 21 Nov 2016 14:56:12 +0800
 Subject: [PATCH 7/7] MLK-13616 ARM: imx: Add low power run voltage change

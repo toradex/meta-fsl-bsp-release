@@ -1,4 +1,4 @@
-From 7d8b179dc6c2111439f5af8cc9ce32f6cca03124 Mon Sep 17 00:00:00 2001
+From bd8b44162000c91a98c62f6a500ca1a77dc1a57d Mon Sep 17 00:00:00 2001
 From: Shengjiu Wang <shengjiu.wang@freescale.com>
 Date: Wed, 11 Jan 2017 15:48:46 +0800
 Subject: [PATCH 4/7] MLK-13724: ARM: dts: fix audio error log in kernel boot

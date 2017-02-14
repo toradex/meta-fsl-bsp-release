@@ -1,4 +1,4 @@
-From b5f30c05070d04c8714bf41deb26fe353035cbe5 Mon Sep 17 00:00:00 2001
+From a08d2e068ee355edad764a85dc28945341e5034d Mon Sep 17 00:00:00 2001
 From: Bai Ping <ping.bai@nxp.com>
 Date: Thu, 19 Jan 2017 14:07:38 +0800
 Subject: [PATCH 3/7] MLK-13774 ARM: imx: fix lpddr2 busfreq support on
