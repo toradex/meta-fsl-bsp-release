@@ -11,10 +11,14 @@ require recipes-kernel/linux/linux-dtb.inc
 DEPENDS += "lzop-native bc-native"
 
 SRCBRANCH = "imx_4.1.15_2.0.0_ga"
-LOCALVERSION = "-2.0.2"
+LOCALVERSION = "-2.0.3"
 SRCREV = "b63f3f52cb393e3287352cf63f0caef31a33ab63"
 KERNEL_SRC ?= "git://git.freescale.com/imx/linux-imx.git;protocol=git"
 SRC_URI = "${KERNEL_SRC};branch=${SRCBRANCH}"
+
+MX6ULL_900MHZ_PATCH = "file://0008-MLK-14409-01-ARM-imx-Add-speed-grading-fuse-check-fo.patch \
+                       file://0009-MLK-14409-02-ARM-dts-imx-Add-900MHz-setpoint-on-i.mx.patch \
+"
 
 SRC_URI += "file://0001-ARM-imx-imx6ul-add-PHY-KSZ8081-new-silicon-revision-.patch \
             file://0001-MLK-13418-ASoC-wm8960-workaround-no-sound-issue-in-m.patch \
@@ -26,6 +30,7 @@ SRC_URI += "file://0001-ARM-imx-imx6ul-add-PHY-KSZ8081-new-silicon-revision-.pat
             file://0005-MLK-13601-01-ARM-dts-imx-update-the-setpoint-for-imx.patch \
             file://0006-MLK-13601-02-ARM-imx-Add-fuse-check-support-for-imx6.patch \
             file://0007-MLK-13616-ARM-imx-Add-low-power-run-voltage-change-s.patch \
+            ${MX6ULL_900MHZ_PATCH} \
 "
 
 DEFAULT_PREFERENCE = "1"

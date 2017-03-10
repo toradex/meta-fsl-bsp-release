@@ -1,0 +1,37 @@
+From c26a5ad9f1d58fd765c6aa8c5a56ecaaf78c225c Mon Sep 17 00:00:00 2001
+From: Bai Ping <ping.bai@nxp.com>
+Date: Fri, 10 Mar 2017 14:58:51 +0800
+Subject: [PATCH 2/2] MLK-14409-02 ARM: dts: imx: Add 900MHz setpoint on
+ i.mx6ull
+
+Add 900MHz/1.25V setpoint according the latest datasheet(Rev.1,2/2017),
+we add a 25mV voltage margin to cover the IR frop and board tolerance.
+
+Signed-off-by: Bai Ping <ping.bai@nxp.com>
+---
+ arch/arm/boot/dts/imx6ull.dtsi | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/arch/arm/boot/dts/imx6ull.dtsi b/arch/arm/boot/dts/imx6ull.dtsi
+index ded7def..08d3ee8 100644
+--- a/arch/arm/boot/dts/imx6ull.dtsi
++++ b/arch/arm/boot/dts/imx6ull.dtsi
+@@ -57,6 +57,7 @@
+ 			clock-latency = <61036>; /* two CLK32 periods */
+ 			operating-points = <
+ 				/* kHz	uV */
++				900000	1275000
+ 				792000	1225000
+ 				528000	1175000
+ 				396000	1025000
+@@ -64,6 +65,7 @@
+ 			>;
+ 			fsl,soc-operating-points = <
+ 				/* KHz	uV */
++				900000	1175000
+ 				792000	1175000
+ 				528000	1175000
+ 				396000	1175000
+-- 
+1.9.1
+
