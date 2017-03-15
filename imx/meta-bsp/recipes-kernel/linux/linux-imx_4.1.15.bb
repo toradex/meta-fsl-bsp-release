@@ -18,6 +18,7 @@ SRC_URI = "${KERNEL_SRC};branch=${SRCBRANCH}"
 
 MX6ULL_900MHZ_PATCH = "file://0008-MLK-14409-01-ARM-imx-Add-speed-grading-fuse-check-fo.patch \
                        file://0009-MLK-14409-02-ARM-dts-imx-Add-900MHz-setpoint-on-i.mx.patch \
+                       file://0010-MLK-14409-03-ARM-dts-imx-Correct-the-setpoint-on-imx.patch \
 "
 
 SRC_URI += "file://0001-ARM-imx-imx6ul-add-PHY-KSZ8081-new-silicon-revision-.patch \

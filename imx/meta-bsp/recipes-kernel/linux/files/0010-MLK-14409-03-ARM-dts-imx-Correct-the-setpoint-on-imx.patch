@@ -1,0 +1,56 @@
+From 19f28ab886fe9053f92a1428d020e71c5fb9187b Mon Sep 17 00:00:00 2001
+From: Bai Ping <ping.bai@nxp.com>
+Date: Wed, 15 Mar 2017 11:18:14 +0800
+Subject: [PATCH] MLK-14409-03 ARM: dts: imx: Correct the setpoint on imx6ull
+ ARM2 board
+
+Correct the setpoints of i.MX6ULL ARM2 board.
+
+Signed-off-by: Bai Ping <ping.bai@nxp.com>
+---
+ arch/arm/boot/dts/imx6ull-14x14-ddr3-arm2-epdc.dts | 2 +-
+ arch/arm/boot/dts/imx6ull-14x14-ddr3-arm2-ldo.dts  | 8 ++++++--
+ 2 files changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/arch/arm/boot/dts/imx6ull-14x14-ddr3-arm2-epdc.dts b/arch/arm/boot/dts/imx6ull-14x14-ddr3-arm2-epdc.dts
+index c476f44..7e80534 100644
+--- a/arch/arm/boot/dts/imx6ull-14x14-ddr3-arm2-epdc.dts
++++ b/arch/arm/boot/dts/imx6ull-14x14-ddr3-arm2-epdc.dts
+@@ -6,7 +6,7 @@
+  * published by the Free Software Foundation.
+  */
+ 
+-#include "imx6ull-14x14-ddr3-arm2.dts"
++#include "imx6ull-14x14-ddr3-arm2-ldo.dts"
+ 
+ &epdc {
+         status = "okay";
+diff --git a/arch/arm/boot/dts/imx6ull-14x14-ddr3-arm2-ldo.dts b/arch/arm/boot/dts/imx6ull-14x14-ddr3-arm2-ldo.dts
+index 94b3ef0..e2ffc77 100644
+--- a/arch/arm/boot/dts/imx6ull-14x14-ddr3-arm2-ldo.dts
++++ b/arch/arm/boot/dts/imx6ull-14x14-ddr3-arm2-ldo.dts
+@@ -11,15 +11,19 @@
+ &cpu0 {
+ 	operating-points = <
+ 		/* kHz	uV */
++		900000	1275000
+ 		792000	1225000
+ 		528000	1175000
+-		99000	950000
++		396000	1025000
++		198000	950000
+ 	>;
+ 	fsl,soc-operating-points = <
+ 		/* KHz	uV */
++		900000	1175000
+ 		792000	1175000
+ 		528000	1175000
+-		99000	1175000
++		396000	1175000
++		198000	1175000
+ 	>;
+ 	arm-supply = <&reg_arm>;
+ 	soc-supply = <&reg_soc>;
+-- 
+1.9.1
+
