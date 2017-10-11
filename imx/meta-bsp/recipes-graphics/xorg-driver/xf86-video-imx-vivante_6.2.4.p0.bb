@@ -5,7 +5,8 @@
 
 require recipes-graphics/xorg-driver/xf86-video-imxfb-vivante.inc
 
-SRCBRANCH = "imx_4.9.51_imx8_beta1"
+NXP_REPO_MIRROR ?= "nxp/"
+SRCBRANCH = "${NXP_REPO_MIRROR}imx_4.9.51_imx8_beta1"
 XF86_VIDEO_IMX_VIVANTE_SRC ?= "git://source.codeaurora.org/external/imx/xf86-video-imx-vivante.git;protocol=https"
 SRC_URI  = "${XF86_VIDEO_IMX_VIVANTE_SRC};branch=${SRCBRANCH}"
 SRC_URI += "file://rc.autohdmi"

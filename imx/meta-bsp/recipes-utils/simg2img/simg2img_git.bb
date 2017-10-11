@@ -8,7 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b433a746dd6fe8862028b1d7fc412a4d"
 DEPENDS = "zlib"
 
 SIMG2IMG_SRC ?= "git://source.codeaurora.org/external/imx/simg2img.git;protocol=https"
-SRC_BRANCH = "master"
+NXP_REPO_MIRROR ?= "nxp/"
+SRC_BRANCH = "${NXP_REPO_MIRROR}master"
 
 SRC_URI = "${SIMG2IMG_SRC};branch=${SRC_BRANCH}"
 SRCREV = "ae70b83c606f5ac912af28343296d1da4a5ba3ea"
