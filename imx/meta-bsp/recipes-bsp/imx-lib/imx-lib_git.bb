@@ -11,10 +11,10 @@ DEPENDS = "virtual/kernel"
 
 PE = "1"
 
-SRCBRANCH = "imx_4.9.11_1.0.0_ga"
+SRCBRANCH = "imx_4.9.51_imx8_beta1"
 IMXLIB_SRC ?= "git://source.codeaurora.org/external/imx/imx-lib.git;protocol=https"
 SRC_URI = "${IMXLIB_SRC};branch=${SRCBRANCH}"
-SRCREV = "f5f14fc24581e5d6e689f42a56b5f2992f978ef4"
+SRCREV = "3f777974c0c146817e2ff5cb0340ca66a1f99e57"
 
 S = "${WORKDIR}/git"
 
