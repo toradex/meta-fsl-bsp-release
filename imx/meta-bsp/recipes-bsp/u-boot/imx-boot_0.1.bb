@@ -56,8 +56,9 @@ IS_MX8QM_mx8qm = "1"
 
 # Inter-Task dependeency for do_compile task
 COMPILE_DEP_TASKS ?= ""
-COMPILE_DEP_TASKS_mx8qm = "imx-sc-firmware:do_deploy imx-m4-demos:do_deploy"
-COMPILE_DEP_TASKS_mx8qxp = "imx-sc-firmware:do_deploy imx-m4-demos:do_deploy"
+COMPILE_DEP_TASKS_mx8qm = "imx-sc-firmware:do_deploy"
+COMPILE_DEP_TASKS_mx8qm += "imx-m4-demos:do_deploy"
+COMPILE_DEP_TASKS_mx8qxp = "imx-sc-firmware:do_deploy"
 COMPILE_DEP_TASKS_mx8mq = "firmware-imx:do_install"
 
 do_compile[depends] = "imx-mkimage:do_deploy \
@@ -123,7 +124,6 @@ do_compile () {
         ${TOOLS_NAME} -soc ${SOC_TARGET} \
                  ${MX8_BOOT_OPTIONS} \
                  -c -scfw ${DEPLOY_DIR_IMAGE}/${BOOT_TOOLS}/${SC_MACHINE_NAME} \
-                 -m4 ${DEPLOY_DIR_IMAGE}/imx8qx_m4_hello_world.bin 0 0x34fe0000 \
                  -c -ap ${UBOOT_NAME_ATF} ${MX8_BOOT_CORE} 0x80000000 \
                  -out ${BOOT_CONFIG_MACHINE_NODCD}
 
@@ -131,7 +131,6 @@ do_compile () {
                  ${MX8_BOOT_OPTIONS} \
                  -c -dcd  ${DEPLOY_DIR_IMAGE}/${DCD_NAME} \
                  -scfw ${DEPLOY_DIR_IMAGE}/${BOOT_TOOLS}/${SC_MACHINE_NAME} \
-                 -m4 ${DEPLOY_DIR_IMAGE}/imx8qx_m4_hello_world.bin 0 0x34fe0000 \
                  -c -ap ${UBOOT_NAME_ATF} ${MX8_BOOT_CORE} 0x80000000 \
                  -out ${BOOT_CONFIG_MACHINE}
     fi
