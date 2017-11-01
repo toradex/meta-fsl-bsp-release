@@ -32,7 +32,8 @@ DCD_NAME_mx8qxp = "imx8qx_dcd.cfg.tmp"
 UBOOT_NAME = "u-boot-${MACHINE}.bin-${UBOOT_CONFIG}"
 UBOOT_NAME_ATF = "u-boot-atf-${MACHINE}.bin-${UBOOT_CONFIG}"
 BOOT_CONFIG_MACHINE = "${BOOT_NAME}-${MACHINE}-${UBOOT_CONFIG}.bin"
-BOOT_CONFIG_MACHINE_NODCD = "${BOOT_CONFIG_MACHINE}-no_dcd"
+BOOT_CONFIG_MACHINE_NODCD = "${BOOT_CONFIG_MACHINE}-flash"
+BOOT_CONFIG_MACHINE_DCD = "${BOOT_CONFIG_MACHINE}-flash_dcd"
 BOOT_CONFIG_MACHINE_NOHDMI = "${BOOT_CONFIG_MACHINE}-no_hdmi"
 
 MX8_BOOT_CORE = "${@bb.utils.contains('UBOOT_CONFIG', 'basic2ca72', 'a72', 'a53', d)}"
@@ -56,9 +57,8 @@ IS_MX8QM_mx8qm = "1"
 
 # Inter-Task dependeency for do_compile task
 COMPILE_DEP_TASKS ?= ""
-COMPILE_DEP_TASKS_mx8qm = "imx-sc-firmware:do_deploy"
-COMPILE_DEP_TASKS_mx8qm += "imx-m4-demos:do_deploy"
-COMPILE_DEP_TASKS_mx8qxp = "imx-sc-firmware:do_deploy"
+COMPILE_DEP_TASKS_mx8qm = "imx-sc-firmware:do_deploy imx-m4-demos:do_deploy"
+COMPILE_DEP_TASKS_mx8qxp = "imx-sc-firmware:do_deploy imx-m4-demos:do_deploy"
 COMPILE_DEP_TASKS_mx8mq = "firmware-imx:do_install"
 
 do_compile[depends] = "imx-mkimage:do_deploy \
@@ -110,9 +110,15 @@ do_compile () {
         ${TOOLS_NAME} -soc ${SOC_TARGET} \
                  ${MX8_BOOT_OPTIONS} \
                  -c -scfw ${DEPLOY_DIR_IMAGE}/${BOOT_TOOLS}/${SC_MACHINE_NAME} \
-                 -m4 m40_tcm.bin 0 0x34fe0000 -m4 m41_tcm.bin 1 0x38fe0000 \
                  -c -ap ${UBOOT_NAME_ATF} ${MX8_BOOT_CORE} 0x80000000 \
                  -out ${BOOT_CONFIG_MACHINE_NODCD}
+
+        ${TOOLS_NAME} -soc ${SOC_TARGET} \
+                 ${MX8_BOOT_OPTIONS} \
+                 -c -dcd  ${DEPLOY_DIR_IMAGE}/${DCD_NAME} \
+                 -scfw ${DEPLOY_DIR_IMAGE}/${BOOT_TOOLS}/${SC_MACHINE_NAME} \
+                 -c -ap ${UBOOT_NAME_ATF} ${MX8_BOOT_CORE} 0x80000000 \
+                 -out ${BOOT_CONFIG_MACHINE_DCD}
 
         ${TOOLS_NAME} -soc ${SOC_TARGET} \
                  ${MX8_BOOT_OPTIONS} \
@@ -134,6 +140,14 @@ do_compile () {
                  ${MX8_BOOT_OPTIONS} \
                  -c -dcd  ${DEPLOY_DIR_IMAGE}/${DCD_NAME} \
                  -scfw ${DEPLOY_DIR_IMAGE}/${BOOT_TOOLS}/${SC_MACHINE_NAME} \
+                 -c -ap ${UBOOT_NAME_ATF} ${MX8_BOOT_CORE} 0x80000000 \
+                 -out ${BOOT_CONFIG_MACHINE_DCD}
+
+        ${TOOLS_NAME} -soc ${SOC_TARGET} \
+                 ${MX8_BOOT_OPTIONS} \
+                 -c -dcd  ${DEPLOY_DIR_IMAGE}/${DCD_NAME} \
+                 -scfw ${DEPLOY_DIR_IMAGE}/${BOOT_TOOLS}/${SC_MACHINE_NAME} \
+                 -m4 ${DEPLOY_DIR_IMAGE}/imx8qx_m4_hello_world.bin 0 0x34fe0000 \
                  -c -ap ${UBOOT_NAME_ATF} ${MX8_BOOT_CORE} 0x80000000 \
                  -out ${BOOT_CONFIG_MACHINE}
     fi
@@ -166,6 +180,7 @@ do_deploy () {
         install -m 0644 ${S}/${BOOT_CONFIG_MACHINE_NOHDMI} ${DEPLOYDIR}/${BOOT_TOOLS}
     else
         install -m 0644 ${S}/${BOOT_CONFIG_MACHINE_NODCD} ${DEPLOYDIR}/${BOOT_TOOLS}
+        install -m 0644 ${S}/${BOOT_CONFIG_MACHINE_DCD}   ${DEPLOYDIR}/${BOOT_TOOLS}
     fi
 }
 
