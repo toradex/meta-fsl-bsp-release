@@ -1,11 +1,11 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
 IMX_LIBDRM_SRC ?= "git://source.codeaurora.org/external/imx/libdrm-imx.git;protocol=https"
-IMX_LIBDRM_BRANCH = "libdrm-imx-2.4.84"
+IMX_LIBDRM_BRANCH = "libdrm-imx-2.4.84-fsl_6.2.4"
 SRC_URI_remove_imxgpu  = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2"
 SRC_URI_remove_mx8     = "file://drm-update-arm.patch"
 SRC_URI_prepend_imxgpu = "${IMX_LIBDRM_SRC};branch=${IMX_LIBDRM_BRANCH} "
-SRCREV_imxgpu = "165bf4c698e654c75e79620b3af2826bb370f6f8"
+SRCREV_imxgpu = "0bbec9bdc6c545841e8e3c57f739c080be9b17bb"
 
 S_imxgpu = "${WORKDIR}/git"
 
