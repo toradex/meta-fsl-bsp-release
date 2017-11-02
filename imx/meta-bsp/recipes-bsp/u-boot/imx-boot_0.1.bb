@@ -59,7 +59,7 @@ IS_MX8QM_mx8qm = "1"
 COMPILE_DEP_TASKS ?= ""
 COMPILE_DEP_TASKS_mx8qm = "imx-sc-firmware:do_deploy imx-m4-demos:do_deploy"
 COMPILE_DEP_TASKS_mx8qxp = "imx-sc-firmware:do_deploy imx-m4-demos:do_deploy"
-COMPILE_DEP_TASKS_mx8mq = "firmware-imx:do_install"
+COMPILE_DEP_TASKS_mx8mq = "firmware-imx:do_deploy"
 
 do_compile[depends] = "imx-mkimage:do_deploy \
                        imx-atf:do_deploy \
@@ -80,8 +80,8 @@ do_compile () {
     if [ "${IS_MX8MQ}" = "1" ]; then
         # generate u-boot-spl-ddr.bin
         objcopy -I binary -O binary --pad-to 0x8000 --gap-fill=0x0 \
-                   ${STAGING_DIR}/boot/lpddr4_pmu_train_imem.bin lpddr4_pmu_train_imem_pad.bin
-        cat lpddr4_pmu_train_imem_pad.bin ${STAGING_DIR}/boot/lpddr4_pmu_train_dmem.bin > lpddr4_pmu_train_fw.bin
+                   ${DEPLOY_DIR_IMAGE}/lpddr4_pmu_train_imem.bin lpddr4_pmu_train_imem_pad.bin
+        cat lpddr4_pmu_train_imem_pad.bin ${DEPLOY_DIR_IMAGE}/lpddr4_pmu_train_dmem.bin > lpddr4_pmu_train_fw.bin
         cat ${DEPLOY_DIR_IMAGE}/u-boot-spl.bin-${MACHINE}-${UBOOT_CONFIG} lpddr4_pmu_train_fw.bin > \
                    u-boot-spl-ddr-${MACHINE}.bin-${UBOOT_CONFIG}
         rm -f lpddr4_pmu_train_fw.bin lpddr4_pmu_train_imem_pad.bin
@@ -97,7 +97,7 @@ do_compile () {
         # flash_hdmi_spl_uboot.bin
         # ./mkimage_imx8 -hdmi hdmi_imx8m.bin -loader u-boot-spl-ddr.bin 0x7E1000 -second_loader u-boot-atf.bin 0x40001000 0x60000 -out $(OUTIMG)
         ${TOOLS_NAME} \
-                 -hdmi ${STAGING_DIR}/boot/hdmi_imx8m.bin \
+                 -hdmi ${DEPLOY_DIR_IMAGE}/hdmi_imx8m.bin \
                  -loader u-boot-spl-ddr-${MACHINE}.bin-${UBOOT_CONFIG} 0x7E1000 \
                  -second_loader ${UBOOT_NAME_ATF} 0x40001000 0x60000 \
                  -out ${BOOT_CONFIG_MACHINE}
@@ -168,8 +168,8 @@ do_deploy () {
     install -m 0755 ${STAGING_BINDIR_NATIVE}/${TOOLS_NAME} ${DEPLOYDIR}/${BOOT_TOOLS}
     if [ "${IS_MX8MQ}" = "1" ]; then
         install -m 0644 ${DEPLOY_DIR_IMAGE}/u-boot-spl.bin-${MACHINE}-${UBOOT_CONFIG} ${DEPLOYDIR}/${BOOT_TOOLS}
-        install -m 0644 ${STAGING_DIR}/boot/lpddr4_pmu_train_*.bin ${DEPLOYDIR}/${BOOT_TOOLS}
-        install -m 0644 ${STAGING_DIR}/boot/hdmi*.bin ${DEPLOYDIR}/${BOOT_TOOLS}
+        install -m 0644 ${DEPLOY_DIR_IMAGE}/lpddr4_pmu_train_*.bin ${DEPLOYDIR}/${BOOT_TOOLS}
+        install -m 0644 ${DEPLOY_DIR_IMAGE}/hdmi*.bin ${DEPLOYDIR}/${BOOT_TOOLS}
     else
         install -m 0644 ${DEPLOY_DIR_IMAGE}/${DCD_NAME} ${DEPLOYDIR}/${BOOT_TOOLS}
     fi
