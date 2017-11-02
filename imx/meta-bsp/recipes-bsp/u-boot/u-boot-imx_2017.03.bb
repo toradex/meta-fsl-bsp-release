@@ -15,7 +15,7 @@ NXP_REPO_MIRROR ?= "nxp/"
 UBOOT_SRC ?= "git://source.codeaurora.org/external/imx/uboot-imx.git;protocol=https"
 SRCBRANCH = "${NXP_REPO_MIRROR}imx_v2017.03_4.9.51_imx8_beta1"
 SRC_URI = "${UBOOT_SRC};branch=${SRCBRANCH}"
-SRCREV = "3f57e94a392c67280106789e87ae8fed4e7d176a"
+SRCREV = "fcc9bdc9a0683927e59375eac7328121605b99a0"
 
 S = "${WORKDIR}/git"
 
