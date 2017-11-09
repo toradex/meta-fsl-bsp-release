@@ -9,7 +9,7 @@ SECTION = "BSP"
 inherit native deploy
 DEPENDS = "zlib-native"
 
-IMX_MKIMAGE_SRC ?= "git://git.freescale.com/imx/imx-mkimage.git;protocol=git"
+IMX_MKIMAGE_SRC ?= "git://source.codeaurora.org/external/imx/imx-mkimage.git;protocol=https"
 SRCBRANCH ?= "imx_4.9.51_imx8_beta1"
 SRC_URI = "${IMX_MKIMAGE_SRC};branch=${SRCBRANCH}"
 SRCREV = "e131af1031fff50106777c2338c41bf58c0b86a1"
