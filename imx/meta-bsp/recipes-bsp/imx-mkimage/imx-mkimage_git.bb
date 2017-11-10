@@ -12,7 +12,7 @@ DEPENDS = "zlib-native"
 IMX_MKIMAGE_SRC ?= "git://source.codeaurora.org/external/imx/imx-mkimage.git;protocol=https"
 SRCBRANCH ?= "imx_4.9.51_imx8_beta1"
 SRC_URI = "${IMX_MKIMAGE_SRC};branch=${SRCBRANCH}"
-SRCREV = "e131af1031fff50106777c2338c41bf58c0b86a1"
+SRCREV = "da676d6783943fa94238f4ab21e71ec25ac31b24"
 
 S = "${WORKDIR}/git"
 
