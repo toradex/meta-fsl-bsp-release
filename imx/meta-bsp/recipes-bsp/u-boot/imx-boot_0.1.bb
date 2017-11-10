@@ -39,7 +39,9 @@ BOOT_CONFIG_MACHINE_NOHDMI = "${BOOT_CONFIG_MACHINE}-no_hdmi"
 MX8_BOOT_CORE = "${@bb.utils.contains('UBOOT_CONFIG', 'basic2ca72', 'a72', 'a53', d)}"
 MX8_BOOT_CORE_mx8qxp = "a35"
 
-MX8_BOOT_OPTIONS = "${@bb.utils.contains('UBOOT_CONFIG', 'fspi', '-dev flexspi', '', d)}"
+MX8_BOOT_OPTIONS = "${@bb.utils.contains('UBOOT_CONFIG', 'fspi', '-dev flexspi', \
+                       bb.utils.contains('UBOOT_CONFIG', 'nand', '-dev nand', \
+                                                                 '', d), d)}"
 
 TOOLS_NAME ?= "mkimage_imx8"
 TOOLS_NAME_mx8mq = "mkimage_imx8m"
@@ -107,49 +109,93 @@ do_compile () {
         cp ${DEPLOY_DIR_IMAGE}/imx8qm_m4_1_TCM_rpmsg_lite_pingpong_rtos_linux_remote.bin m41_tcm.bin
 
         # mkimage for i.MX8QM
-        ${TOOLS_NAME} -soc ${SOC_TARGET} \
+        if [ "${UBOOT_CONFIG}" = "fspi" ]; then
+            # flash_flexspi:
+            # ./$(MKIMG) -soc QM -c -dev flexspi -scfw scfw_tcm.bin -c -ap u-boot-atf.bin a53 0x80000000 -out flash.bin
+            ${TOOLS_NAME} -soc ${SOC_TARGET} \
+                 ${MX8_BOOT_OPTIONS} \
+                 -c -scfw ${DEPLOY_DIR_IMAGE}/${BOOT_TOOLS}/${SC_MACHINE_NAME} \
+                 -c -ap ${UBOOT_NAME_ATF} ${MX8_BOOT_CORE} 0x80000000 \
+                 -out ${BOOT_CONFIG_MACHINE}
+
+        else
+            # flash:
+            # ./$(MKIMG) -soc QX -c -scfw scfw_tcm.bin -c -ap u-boot-atf.bin a35 0x80000000 -out flash.bin
+            ${TOOLS_NAME} -soc ${SOC_TARGET} \
                  ${MX8_BOOT_OPTIONS} \
                  -c -scfw ${DEPLOY_DIR_IMAGE}/${BOOT_TOOLS}/${SC_MACHINE_NAME} \
                  -c -ap ${UBOOT_NAME_ATF} ${MX8_BOOT_CORE} 0x80000000 \
                  -out ${BOOT_CONFIG_MACHINE_NODCD}
 
-        ${TOOLS_NAME} -soc ${SOC_TARGET} \
+            # flash_dcd:
+            # ./$(MKIMG) -soc QM -c -dcd $(DCD_CFG) -scfw scfw_tcm.bin -c -ap u-boot-atf.bin a53 0x80000000 -out flash.bin
+            ${TOOLS_NAME} -soc ${SOC_TARGET} \
                  ${MX8_BOOT_OPTIONS} \
                  -c -dcd  ${DEPLOY_DIR_IMAGE}/${DCD_NAME} \
                  -scfw ${DEPLOY_DIR_IMAGE}/${BOOT_TOOLS}/${SC_MACHINE_NAME} \
                  -c -ap ${UBOOT_NAME_ATF} ${MX8_BOOT_CORE} 0x80000000 \
                  -out ${BOOT_CONFIG_MACHINE_DCD}
 
-        ${TOOLS_NAME} -soc ${SOC_TARGET} \
+            # flash_multi_cores:
+            # ./$(MKIMG) -soc QM -c -dcd $(DCD_CFG) -scfw scfw_tcm.bin -m4 m40_tcm.bin 0 0x34FE0000 -m4 m41_tcm.bin 1 0x38FE0000 -c -ap u-boot-atf.bin a53 0x80000000 -out flash.bin
+            ${TOOLS_NAME} -soc ${SOC_TARGET} \
                  ${MX8_BOOT_OPTIONS} \
                  -c -dcd  ${DEPLOY_DIR_IMAGE}/${DCD_NAME} \
                  -scfw ${DEPLOY_DIR_IMAGE}/${BOOT_TOOLS}/${SC_MACHINE_NAME} \
                  -m4 m40_tcm.bin 0 0x34fe0000 -m4 m41_tcm.bin 1 0x38fe0000 \
                  -c -ap ${UBOOT_NAME_ATF} ${MX8_BOOT_CORE} 0x80000000 \
                  -out ${BOOT_CONFIG_MACHINE}
+        fi
 
     else
         # mkimage for i.MX8QX
-        ${TOOLS_NAME} -soc ${SOC_TARGET} \
+        if [ "${UBOOT_CONFIG}" = "fspi" ]; then
+            # flash_flexspi:
+            # ./$(MKIMG) -soc QX -dev flexspi -c -dcd $(DCD_CFG) -scfw scfw_tcm.bin -c -ap u-boot-atf.bin a35 0x80000000 -out flash.bin
+            ${TOOLS_NAME} -soc ${SOC_TARGET} \
+                 ${MX8_BOOT_OPTIONS} \
+                 -c -dcd  ${DEPLOY_DIR_IMAGE}/${DCD_NAME} \
+                 -scfw ${DEPLOY_DIR_IMAGE}/${BOOT_TOOLS}/${SC_MACHINE_NAME} \
+                 -c -ap ${UBOOT_NAME_ATF} ${MX8_BOOT_CORE} 0x80000000 \
+                 -out ${BOOT_CONFIG_MACHINE}
+
+        elif [ "${UBOOT_CONFIG}" = "nand" ]; then
+            # flash_nand:
+            # ./$(MKIMG) -soc QX -dev nand -c -scfw scfw_tcm.bin -c -ap u-boot-atf.bin a35 0x80000000 -out flash.bin
+            ${TOOLS_NAME} -soc ${SOC_TARGET} \
+                 ${MX8_BOOT_OPTIONS} \
+                 -c -scfw ${DEPLOY_DIR_IMAGE}/${BOOT_TOOLS}/${SC_MACHINE_NAME} \
+                 -c -ap ${UBOOT_NAME_ATF} ${MX8_BOOT_CORE} 0x80000000 \
+                 -out ${BOOT_CONFIG_MACHINE}
+
+        else
+            # flash:
+            # ./$(MKIMG) -soc QX -c -scfw scfw_tcm.bin -c -ap u-boot-atf.bin a35 0x80000000 -out flash.bin
+            ${TOOLS_NAME} -soc ${SOC_TARGET} \
                  ${MX8_BOOT_OPTIONS} \
                  -c -scfw ${DEPLOY_DIR_IMAGE}/${BOOT_TOOLS}/${SC_MACHINE_NAME} \
                  -c -ap ${UBOOT_NAME_ATF} ${MX8_BOOT_CORE} 0x80000000 \
                  -out ${BOOT_CONFIG_MACHINE_NODCD}
 
-        ${TOOLS_NAME} -soc ${SOC_TARGET} \
+            # flash_dcd:
+            # ./$(MKIMG) -soc QX -c -dcd $(DCD_CFG) -scfw scfw_tcm.bin -c -ap u-boot-atf.bin a35 0x80000000 -out flash.bin
+            ${TOOLS_NAME} -soc ${SOC_TARGET} \
                  ${MX8_BOOT_OPTIONS} \
                  -c -dcd  ${DEPLOY_DIR_IMAGE}/${DCD_NAME} \
                  -scfw ${DEPLOY_DIR_IMAGE}/${BOOT_TOOLS}/${SC_MACHINE_NAME} \
                  -c -ap ${UBOOT_NAME_ATF} ${MX8_BOOT_CORE} 0x80000000 \
                  -out ${BOOT_CONFIG_MACHINE_DCD}
 
-        ${TOOLS_NAME} -soc ${SOC_TARGET} \
+            # flash_multi_cores:
+            # ./$(MKIMG) -soc QX -c -dcd $(DCD_CFG) -scfw scfw_tcm.bin -m4 m40_tcm.bin 0 0x34FE0000 -c -ap u-boot-atf.bin a35 0x80000000 -out flash.bin
+            ${TOOLS_NAME} -soc ${SOC_TARGET} \
                  ${MX8_BOOT_OPTIONS} \
                  -c -dcd  ${DEPLOY_DIR_IMAGE}/${DCD_NAME} \
                  -scfw ${DEPLOY_DIR_IMAGE}/${BOOT_TOOLS}/${SC_MACHINE_NAME} \
                  -m4 ${DEPLOY_DIR_IMAGE}/imx8qx_m4_hello_world.bin 0 0x34fe0000 \
                  -c -ap ${UBOOT_NAME_ATF} ${MX8_BOOT_CORE} 0x80000000 \
                  -out ${BOOT_CONFIG_MACHINE}
+        fi
     fi
 }
 
@@ -175,13 +221,7 @@ do_deploy () {
     fi
 
     # copy the generated boot image to deploy path
-    install -m 0644 ${S}/${BOOT_CONFIG_MACHINE} ${DEPLOYDIR}/${BOOT_TOOLS}
-    if [ "${IS_MX8MQ}" = "1" ]; then
-        install -m 0644 ${S}/${BOOT_CONFIG_MACHINE_NOHDMI} ${DEPLOYDIR}/${BOOT_TOOLS}
-    else
-        install -m 0644 ${S}/${BOOT_CONFIG_MACHINE_NODCD} ${DEPLOYDIR}/${BOOT_TOOLS}
-        install -m 0644 ${S}/${BOOT_CONFIG_MACHINE_DCD}   ${DEPLOYDIR}/${BOOT_TOOLS}
-    fi
+    install -m 0644 ${S}/${BOOT_CONFIG_MACHINE}* ${DEPLOYDIR}/${BOOT_TOOLS}
 }
 
 addtask deploy before do_build after do_compile
