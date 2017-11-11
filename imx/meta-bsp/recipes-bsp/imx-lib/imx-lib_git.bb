@@ -11,8 +11,7 @@ DEPENDS = "virtual/kernel"
 
 PE = "1"
 
-NXP_REPO_MIRROR ?= "nxp/"
-SRCBRANCH = "${NXP_REPO_MIRROR}imx_4.9.51_imx8_beta1"
+SRCBRANCH = "imx_4.9.51_imx8_beta1"
 IMXLIB_SRC ?= "git://source.codeaurora.org/external/imx/imx-lib.git;protocol=https"
 SRC_URI = "${IMXLIB_SRC};branch=${SRCBRANCH}"
 SRCREV = "3f777974c0c146817e2ff5cb0340ca66a1f99e57"

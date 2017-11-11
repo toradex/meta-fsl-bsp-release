@@ -11,9 +11,8 @@ DEPENDS_append = " python dtc-native"
 LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://Licenses/gpl-2.0.txt;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 
-NXP_REPO_MIRROR ?= "nxp/"
 UBOOT_SRC ?= "git://source.codeaurora.org/external/imx/uboot-imx.git;protocol=https"
-SRCBRANCH = "${NXP_REPO_MIRROR}imx_v2017.03_4.9.51_imx8_beta1"
+SRCBRANCH = "imx_v2017.03_4.9.51_imx8_beta1"
 SRC_URI = "${UBOOT_SRC};branch=${SRCBRANCH}"
 SRCREV = "c8e6eb2179512ee87c8faa08bbe826ead40ab702"
 
