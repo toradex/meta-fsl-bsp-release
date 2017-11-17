@@ -1,7 +1,7 @@
 From bbce23ade0d17c7ef4dbd6042009e0f2419f9668 Mon Sep 17 00:00:00 2001
 From: Haihua Hu <jared.hu@nxp.com>
 Date: Mon, 6 Nov 2017 15:05:47 +0800
-Subject: [PATCH] fbmemory: need unmap if mapping flags are not subset of
+Subject: [PATCH] fdmemory: need unmap if mapping flags are not subset of
  previous
 
 Upstream-Status: Pending

@@ -64,6 +64,7 @@ SRC_URI_append = " \
     file://0035-videoaggregator-passthrough-interlace-mo.patch \
     file://0036-glvideomixer-need-update-output-geometry.patch \
     file://0037-gleglimage-fix-YUY2-import-error-when-up.patch \
+    file://0038-glupload-need-upload-each-plane-to-singl.patch \
 "
 
 # include fragment shaders
