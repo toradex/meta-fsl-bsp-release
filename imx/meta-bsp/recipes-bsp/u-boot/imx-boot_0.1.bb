@@ -161,11 +161,11 @@ do_compile () {
 
         elif [ "${UBOOT_CONFIG}" = "nand" ]; then
             # flash_nand:
-            # ./$(MKIMG) -soc QX -dev nand -dcd $(DCD_CFG) -c -scfw scfw_tcm.bin -c -ap u-boot-atf.bin a35 0x80000000 -out flash.bin
+            # ./$(MKIMG) -soc QX -dev nand -c -dcd $(DCD_CFG) -scfw scfw_tcm.bin -c -ap u-boot-atf.bin a35 0x80000000 -out flash.bin
             ${TOOLS_NAME} -soc ${SOC_TARGET} \
                  ${MX8_BOOT_OPTIONS} \
                  -c -dcd  ${DEPLOY_DIR_IMAGE}/${DCD_NAME} \
-                 -c -scfw ${DEPLOY_DIR_IMAGE}/${BOOT_TOOLS}/${SC_MACHINE_NAME} \
+                 -scfw ${DEPLOY_DIR_IMAGE}/${BOOT_TOOLS}/${SC_MACHINE_NAME} \
                  -c -ap ${UBOOT_NAME_ATF} ${MX8_BOOT_CORE} 0x80000000 \
                  -out ${BOOT_CONFIG_MACHINE}
 
