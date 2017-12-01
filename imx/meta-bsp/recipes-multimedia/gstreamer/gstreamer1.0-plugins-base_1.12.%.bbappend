@@ -28,4 +28,5 @@ SRC_URI_append = " file://0001-basetextoverlay-make-memory-copy-when-video-buffe
                    file://0012-Remove-phymem-allocator-from-base-to-bad.patch \
                    file://0013-dmabuf-set-fd-memory-to-keep-mapped.patch \
                    file://0014-fdmemory-need-unmap-if-mapping-flags-are-not-subset-.patch \
+                   file://0015-basetextoverlay-need-avoid-idx-exceed-me.patch \
 "
