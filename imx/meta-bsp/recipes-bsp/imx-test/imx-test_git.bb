@@ -3,7 +3,7 @@
 
 include recipes-bsp/imx-test/imx-test.inc
 
-SRCBRANCH = "master"
+SRCBRANCH = "imx_4.9.51_imx8_beta2"
 IMXTEST_SRC ?= "git://source.codeaurora.org/external/imx/imx-test.git;protocol=https"
 
 SRC_URI = "${IMXTEST_SRC};branch=${SRCBRANCH}"
