@@ -10,27 +10,33 @@ inherit fsl-eula-unpack pkgconfig deploy
 
 SRC_URI = "${FSL_MIRROR}/${PN}-${PV}.bin;fsl-eula=true"
 
-SRC_URI[md5sum] = "3a9c55dbfe5db4bd890ca1dc29b696d8"
-SRC_URI[sha256sum] = "2f382a865753f31c5a79ab4c6200480bddfb27954df622056f8d8caca6ed40c7"
+SRC_URI[md5sum] = "bdb0bac981295199d206d5b442d84c18"
+SRC_URI[sha256sum] = "64f3968dcd5e52d2a65a4068c3cd6984de7a9f41353aecb4790be0451edb5124"
 
 S = "${WORKDIR}/${PN}-${PV}"
 
-SC_MACHINE_NAME ?= "mx8qm-scfw-tcm.bin"
-SC_MACHINE_NAME_mx8qm = "mx8qm-scfw-tcm.bin"
-SC_MACHINE_NAME_mx8qxp = "mx8qx-scfw-tcm.bin"
+BOARD_TYPE ?= "mek"
+SC_FIRMWARE_NAME ?= "mx8qm-mek-scfw-tcm.bin"
+SC_FIRMWARE_NAME_mx8qm = "mx8qm-${BOARD_TYPE}-scfw-tcm.bin"
+SC_FIRMWARE_NAME_mx8qxp = "mx8qx-${BOARD_TYPE}-scfw-tcm.bin"
+symlink_name = "scfw_tcm.bin"
 
 SYSROOT_DIRS += "/boot"
 
 do_install () {
     install -d ${D}/boot
-    install -m 0644 ${S}/${SC_MACHINE_NAME} ${D}/boot/
+    install -m 0644 ${S}/${SC_FIRMWARE_NAME} ${D}/boot/
 }
 
 BOOT_TOOLS = "imx-boot-tools"
 
 do_deploy () {
     install -d ${DEPLOYDIR}/${BOOT_TOOLS}
-    install -m 0644 ${S}/${SC_MACHINE_NAME} ${DEPLOYDIR}/${BOOT_TOOLS}/
+    install -m 0644 ${S}/${SC_FIRMWARE_NAME} ${DEPLOYDIR}/${BOOT_TOOLS}/
+    cd ${DEPLOYDIR}/${BOOT_TOOLS}/
+    rm -f ${symlink_name}
+    ln -sf ${SC_FIRMWARE_NAME} ${symlink_name}
+    cd -
 }
 
 addtask deploy after do_install
