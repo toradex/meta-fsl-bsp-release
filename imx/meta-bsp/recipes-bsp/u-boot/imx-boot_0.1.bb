@@ -19,6 +19,7 @@ DEPENDS_append_mx8qm = " imx-m4-demos"
 SC_MACHINE_NAME ?= "mx8qm-scfw-tcm.bin"
 SC_MACHINE_NAME_mx8qm = "mx8qm-scfw-tcm.bin"
 SC_MACHINE_NAME_mx8qxp = "mx8qx-scfw-tcm.bin"
+SC_MACHINE_NAME_apalis-imx8 = "apalis-imx8-scfw-tcm.bin"
 
 ATF_MACHINE_NAME ?= "bl31-imx8qm.bin"
 ATF_MACHINE_NAME_mx8qm = "bl31-imx8qm.bin"

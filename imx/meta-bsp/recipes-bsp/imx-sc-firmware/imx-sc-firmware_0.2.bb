@@ -8,16 +8,21 @@ SECTION = "BSP"
 
 inherit fsl-eula-unpack pkgconfig deploy
 
-SRC_URI = "${FSL_MIRROR}/${PN}-${PV}.bin;fsl-eula=true"
+SRC_URI = " \
+     ${FSL_MIRROR}/${PN}-${PV}.bin;fsl-eula=true \
+    file://apalis-imx8-scfw-tcm.bin \
+"
 
 SRC_URI[md5sum] = "6ae8d2ffc24d5cadac9a90c2ff49ecf1"
 SRC_URI[sha256sum] = "f206d017cb9bd1eb554fb76934034dc85d66155ce7a9f55e5ad25a9c8135dd56"
 
 S = "${WORKDIR}/${PN}-${PV}"
+S_apalis-imx8 = "${WORKDIR}"
 
 SC_MACHINE_NAME ?= "mx8qm-scfw-tcm.bin"
 SC_MACHINE_NAME_mx8qm = "mx8qm-scfw-tcm.bin"
 SC_MACHINE_NAME_mx8qxp = "mx8qx-scfw-tcm.bin"
+SC_MACHINE_NAME_apalis-imx8 = "apalis-imx8-scfw-tcm.bin"
 
 SYSROOT_DIRS += "/boot"
 
