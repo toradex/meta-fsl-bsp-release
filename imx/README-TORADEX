@@ -1,0 +1,48 @@
+Apalis iMX8 Bring-Up based on 4.9.51_8qm_beta2 Release
+======================================================
+
+  * Apalis iMX8 with NXP i.MX 8QuadMax SoC (apalis-imx8)
+
+Quick Start Guide
+-----------------
+See the i.MX Yocto Project User's Guide for instructions on installing repo.
+
+First install the i.MX Linux BSP repo
+$: repo init -u git://github.com/toradex/imx-manifest.git -b toradex-linux-morty -m toradex-4.9.51-8qm_beta2_bring_up.xml
+
+Download the Yocto Project Layers:
+$: repo sync
+
+If errors on repo init, remove the .repo directory and try repo init again.
+
+Run i.MX Linux Yocto Project Setup for Apalis iMX8:
+$: MACHINE=apalis-imx8 DISTRO=<distro name> source fsl-setup-release.sh -b <build directory>
+
+Copy the resulting image on a SD-card (replace /dev/sdx with /dev/mmcblkx if necessary)
+$: dd if=fsl-image-validation-imx-apalis-imx8.sdcard of=/dev/sdx bs=4M
+
+Note: Only very early samples are strapped to boot from external SD! Future
+samples will boot from internal eMMC.
+
+To let Apalis iMX8 boot from DS-card Use the Apalis 8-bit SD/MMC slot or the
+SD-card slot on a Ixora V1.1A (Ixora V1.0 do not work!). This boots the SoC
+from SD-card.
+
+At this point known to be working:
+- HDMI/DVI
+- LVDS dual-channel display (configured for a 1080p panel)
+- SD-card (used for root fs)
+- eMMC
+- Serial Ports
+- I2C
+- Gigabit Ethernet
+- Apalis USB Port 2/3 (USBH2/3)
+- Apalis USB Port 4 (USBH4, USB 3.0/SuperSpeed)
+- USB OTG (Host mode)
+- On-Module Marvell Wi-Fi/Bluetooth chip (via PCIe, Wi-Fi only)
+
+Not working:
+- MIPI CSI2 (missing sensor driver compatible to i.MX 8 camera stack)
+- Audio
+
+See also README-IMXBSP
