@@ -28,6 +28,7 @@ ATF_MACHINE_NAME_mx8mq = "bl31-imx8mq.bin"
 
 DCD_NAME ?= "imx8qm_dcd.cfg.tmp"
 DCD_NAME_mx8qm = "imx8qm_dcd.cfg.tmp"
+DCD_NAME_apalis-imx8 = "imx8qm_apalis-imx8_dcd.cfg.tmp"
 DCD_NAME_mx8qxp = "imx8qx_dcd.cfg.tmp"
 
 UBOOT_NAME = "u-boot-${MACHINE}.bin-${UBOOT_CONFIG}"

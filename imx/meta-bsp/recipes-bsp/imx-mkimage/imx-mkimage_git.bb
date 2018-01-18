@@ -11,7 +11,12 @@ DEPENDS = "zlib-native"
 
 IMX_MKIMAGE_SRC ?= "git://source.codeaurora.org/external/imx/imx-mkimage.git;protocol=https"
 SRCBRANCH ?= "imx_4.9.51_imx8_beta1"
-SRC_URI = "${IMX_MKIMAGE_SRC};branch=${SRCBRANCH}"
+SRC_URI = " \
+    ${IMX_MKIMAGE_SRC};branch=${SRCBRANCH} \
+    file://0001-add-board-support-for-DCD-memory-timings.patch \
+    file://0002-add-memory-timings-for-Apalis-iMX8.patch \
+"
+
 SRCREV = "90fbac1af5ac4ede351ba2f235fe38631e569888"
 
 S = "${WORKDIR}/git"
@@ -27,6 +32,7 @@ do_compile () {
 
     oe_runmake -C iMX8QM -f soc.mak imx8qm_dcd.cfg.tmp
     oe_runmake -C iMX8QX -f soc.mak imx8qx_dcd.cfg.tmp
+    oe_runmake DCD_BOARD=apalis-imx8 -C iMX8QM -f soc.mak imx8qm_apalis-imx8_dcd.cfg.tmp
 }
 
 BOOT_TOOLS = "imx-boot-tools"
@@ -42,6 +48,7 @@ do_install () {
 do_deploy () {
     install -m 0644 ${S}/iMX8QM/imx8qm_dcd.cfg.tmp ${DEPLOYDIR}
     install -m 0644 ${S}/iMX8QX/imx8qx_dcd.cfg.tmp ${DEPLOYDIR}
+    install -m 0644 ${S}/iMX8QM/imx8qm_apalis-imx8_dcd.cfg.tmp ${DEPLOYDIR}
 }
 
 addtask deploy before do_build after do_install
