@@ -1,0 +1,47 @@
+From 2457fef0de68d8eef8ec9a76a5daa56e71db1aff Mon Sep 17 00:00:00 2001
+From: Stefan Agner <stefan.agner@toradex.com>
+Date: Thu, 18 Jan 2018 10:09:14 +0100
+Subject: [PATCH] add board support for DCD memory timings
+
+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+Forward port to imx_4.9.88_imx8qxp_beta2
+Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+---
+ iMX8QM/soc.mak | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
+
+diff --git a/iMX8QM/soc.mak b/iMX8QM/soc.mak
+index c348f07..703946d 100755
+--- a/iMX8QM/soc.mak
++++ b/iMX8QM/soc.mak
+@@ -1,11 +1,21 @@
+ MKIMG = ../mkimage_imx8
+-DCD_800_CFG_SRC = imx8qm_dcd_800MHz.cfg
+-DCD_1200_CFG_SRC = imx8qm_dcd_1.2GHz.cfg
+-DCD_CFG_SRC = imx8qm_dcd_1.6GHz.cfg
++ifeq ($(DCD_BOARD),)
++	DCD_800_CFG_SRC = imx8qm_dcd_800MHz.cfg
++	DCD_1200_CFG_SRC = imx8qm_dcd_1.2GHz.cfg
++	DCD_CFG_SRC = imx8qm_dcd_1.6GHz.cfg
++
++	DCD_800_CFG = imx8qm_dcd_800.cfg.tmp
++	DCD_1200_CFG = imx8qm_dcd_1200.cfg.tmp
++	DCD_CFG = imx8qm_dcd.cfg.tmp
++else
++	DCD_800_CFG_SRC = imx8qm_$(DCD_BOARD)_dcd_800MHz.cfg
++	DCD_1200_CFG_SRC = $(DCD_CFG_SRC)
++	DCD_CFG_SRC = imx8qm_$(DCD_BOARD)_dcd_1.6GHz.cfg
+ 
+-DCD_800_CFG = imx8qm_dcd_800.cfg.tmp
+-DCD_1200_CFG = imx8qm_dcd_1200.cfg.tmp
+-DCD_CFG = imx8qm_dcd.cfg.tmp
++	DCD_800_CFG = imx8qm_$(DCD_BOARD)_dcd_800.cfg.tmp
++	DCD_1200_CFG = imx8qm_$(DCD_BOARD)_dcd_1200.cfg.tmp
++	DCD_CFG = imx8qm_$(DCD_BOARD)_dcd.cfg.tmp
++endif
+ 
+ CC ?= gcc
+ INCLUDE = ./lib
+-- 
+2.13.6
+
