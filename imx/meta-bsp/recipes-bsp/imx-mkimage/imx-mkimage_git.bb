@@ -13,7 +13,7 @@ DEPENDS = "zlib-native"
 
 S = "${WORKDIR}/git"
 
-CFLAGS = "-O2 -Wall -std=c99 -static -I ${STAGING_INCDIR} -L ${STAGING_LIBDIR}"
+CFLAGS = "-O2 -Wall -std=c99 -I ${STAGING_INCDIR} -L ${STAGING_LIBDIR}"
 
 do_compile () {
     cd ${S}
@@ -24,6 +24,7 @@ do_compile () {
 
     oe_runmake -C iMX8QM -f soc.mak imx8qm_dcd.cfg.tmp
     oe_runmake -C iMX8QX -f soc.mak imx8qx_dcd.cfg.tmp
+    oe_runmake DCD_BOARD=apalis-imx8 -C iMX8QM -f soc.mak imx8qm_apalis-imx8_dcd.cfg.tmp
 }
 
 BOOT_TOOLS = "imx-boot-tools"
@@ -39,6 +40,7 @@ do_install () {
 do_deploy () {
     install -m 0644 ${S}/iMX8QM/imx8qm_dcd.cfg.tmp ${DEPLOYDIR}
     install -m 0644 ${S}/iMX8QX/imx8qx_dcd.cfg.tmp ${DEPLOYDIR}
+    install -m 0644 ${S}/iMX8QM/imx8qm_apalis-imx8_dcd.cfg.tmp ${DEPLOYDIR}
 }
 
 addtask deploy before do_build after do_install
