@@ -12,15 +12,15 @@ LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://Licenses/gpl-2.0.txt;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 
 UBOOT_SRC ?= "git://git.toradex.com/u-boot-toradex.git;protocol=https"
-SRCBRANCH = "toradex_imx_v2017.03_4.9.51_imx8_beta1-bring_up"
+SRCBRANCH = "toradex_imx_v2017.03_4.9.51_imx8_beta2-bring_up"
 SRC_URI = "${UBOOT_SRC};branch=${SRCBRANCH}"
-SRCREV = "5a893f3d535784952deb2a901681c2d1ed0f877e"
+SRCREV = "41ef3986ae21dc6fcc4355ab53ccc809d80d361e"
 
 S = "${WORKDIR}/git"
 
 inherit fsl-u-boot-localversion
 
-LOCALVERSION ?= "-imx_4.9.51_8qm_beta1_toradex"
+LOCALVERSION ?= "-imx_4.9.51_8qm_beta2_toradex"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 COMPATIBLE_MACHINE = "(mx6|mx7|mx8)"
