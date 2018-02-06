@@ -102,6 +102,7 @@ do_compile () {
     for target in ${IMXBOOT_TARGETS}; do
         echo "building ${SOC_TARGET} - ${target}"
         make SOC=${SOC_TARGET} ${target}
+        make DCD_BOARD=apalis-imx8 SOC=${SOC_TARGET} ${target}
         if [ -e "${S}/${SOC_TARGET}/flash.bin" ]; then
             cp ${S}/${SOC_TARGET}/flash.bin ${S}/${BOOT_CONFIG_MACHINE}-${target}
         fi
