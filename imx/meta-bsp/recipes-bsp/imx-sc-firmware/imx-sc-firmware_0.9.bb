@@ -10,7 +10,7 @@ inherit fsl-eula-unpack pkgconfig deploy
 
 SRC_URI = " \
      ${FSL_MIRROR}/${PN}-${PV}.bin;fsl-eula=true \
-    file://apalis-imx8-scfw-tcm.bin \
+     file://apalis-imx8-scfw-tcm.bin \
 "
 
 SRC_URI[md5sum] = "3246a44a242b68fae601561a80d5925c"
