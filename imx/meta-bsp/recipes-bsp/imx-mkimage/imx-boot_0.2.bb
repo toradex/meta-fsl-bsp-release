@@ -50,6 +50,9 @@ DCD_NAME_mx8qm = "imx8qm_dcd.cfg.tmp"
 DCD_NAME_apalis-imx8 = "imx8qm_apalis-imx8_dcd.cfg.tmp"
 DCD_NAME_mx8qxp = "imx8qx_dcd.cfg.tmp"
 
+DCD_BOARD ?= ""
+DCD_BOARD_apalis-imx8 = "apalis-imx8"
+
 UBOOT_NAME = "u-boot-${MACHINE}.bin-${UBOOT_CONFIG}"
 BOOT_CONFIG_MACHINE = "${BOOT_NAME}-${MACHINE}-${UBOOT_CONFIG}.bin"
 
@@ -100,9 +103,8 @@ do_compile () {
 
     # mkimage for i.MX8
     for target in ${IMXBOOT_TARGETS}; do
-        echo "building ${SOC_TARGET} - ${target}"
-        make SOC=${SOC_TARGET} ${target}
-        make DCD_BOARD=apalis-imx8 SOC=${SOC_TARGET} ${target}
+        echo "building ${SOC_TARGET} - ${target} (${DCD_BOARD})"
+        make DCD_BOARD=${DCD_BOARD} SOC=${SOC_TARGET} ${target}
         if [ -e "${S}/${SOC_TARGET}/flash.bin" ]; then
             cp ${S}/${SOC_TARGET}/flash.bin ${S}/${BOOT_CONFIG_MACHINE}-${target}
         fi
