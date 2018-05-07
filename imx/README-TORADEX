@@ -18,6 +18,11 @@ If errors on repo init, remove the .repo directory and try repo init again.
 Run i.MX Linux Yocto Project Setup for Apalis iMX8:
 $: MACHINE=apalis-imx8 DISTRO=<distro name> source fsl-setup-release.sh -b <build directory>
 
+E.g. the image Toradex used mostly so far:
+$: MACHINE=apalis-imx8 DISTRO=fsl-imx-x11 source fsl-setup-release.sh -b build-apalis/
+
+$: bitbake fsl-image-validation-imx
+
 Copy the resulting image on a SD-card (replace /dev/sdx with /dev/mmcblkx if necessary)
 $: dd if=fsl-image-validation-imx-apalis-imx8.sdcard of=/dev/sdx bs=4M
 
