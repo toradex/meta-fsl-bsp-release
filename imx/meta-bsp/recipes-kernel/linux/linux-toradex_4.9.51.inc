@@ -7,6 +7,6 @@ LOCALVERSION = "-imx_4.9.51_8qm_beta2_toradex"
 
 KERNEL_SRC ?= "git://git.toradex.com/linux-toradex.git;protocol=https"
 SRC_URI = "${KERNEL_SRC};branch=${SRCBRANCH}"
-SRCREV = "db14ad6e5cf9cc8b89f0c61b2e2229fafeebef40"
+SRCREV = "6be9d4ba6f9e4bbb27b2ae4ba5be949183cab8bd"
 
 S = "${WORKDIR}/git"
