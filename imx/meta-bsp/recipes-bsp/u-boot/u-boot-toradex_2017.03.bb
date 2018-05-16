@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://Licenses/gpl-2.0.txt;md5=b234ee4d69f5fce4486a80fdaf4a
 UBOOT_SRC ?= "git://git.toradex.com/u-boot-toradex.git;protocol=https"
 SRCBRANCH = "toradex_imx_v2017.03_4.9.51_imx8_beta2-bring_up"
 SRC_URI = "${UBOOT_SRC};branch=${SRCBRANCH}"
-SRCREV = "41ef3986ae21dc6fcc4355ab53ccc809d80d361e"
+SRCREV = "67cf06ee02ba39a93fbfd4ed2e82509ec86ba53e"
 
 S = "${WORKDIR}/git"
 
