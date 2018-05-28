@@ -34,8 +34,8 @@ SD-card slot on a Ixora V1.1A (Ixora V1.0 do not work!). This boots the SoC
 from SD-card.
 
 At this point known to be working:
-- HDMI/DVI
-- LVDS dual-channel display (configured for a 1080p panel)
+- HDMI/DVI (1080p resolution only, no EDID support)
+- LVDS dual-channel display (configured for a 1080p panel, disabled by default)
 - SD-card (used for root fs)
 - eMMC
 - Serial Ports
@@ -45,9 +45,8 @@ At this point known to be working:
 - Apalis USB Port 4 (USBH4, USB 3.0/SuperSpeed)
 - USB OTG (Host mode)
 - On-Module Marvell Wi-Fi/Bluetooth chip (via PCIe, Wi-Fi only)
-
-Not working:
-- MIPI CSI2 (missing sensor driver compatible to i.MX 8 camera stack)
-- Audio
+- MIPI CSI2 (supported through CONFIG_MXC_CAMERA_OV5640_MIPI_NV. Defaults to
+  1080p mode. Frames stutter when using GStreamer 1.12.2 from BSP build)
+- Audio (SGTL5000)
 
 See also README-IMXBSP
