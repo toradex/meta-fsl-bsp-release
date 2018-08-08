@@ -10,7 +10,7 @@ require imx-mkimage_git.inc
 inherit deploy
 
 # Add CFLAGS with native INCDIR & LIBDIR for imx-mkimage build
-CFLAGS = "-O2 -Wall -std=c99 -static -I ${STAGING_INCDIR_NATIVE} -L ${STAGING_LIBDIR_NATIVE}"
+CFLAGS = "-O2 -Wall -std=c99 -I ${STAGING_INCDIR_NATIVE} -L ${STAGING_LIBDIR_NATIVE}"
 
 BOOT_TOOLS = "imx-boot-tools"
 BOOT_NAME = "imx-boot"
@@ -57,9 +57,15 @@ DCD_NAME ?= "imx8qm_dcd.cfg.tmp"
 DCD_NAME_mx8qm = "imx8qm_dcd.cfg.tmp"
 DCD_NAME_apalis-imx8 = "imx8qm_apalis-imx8_dcd.cfg.tmp"
 DCD_NAME_mx8qxp = "imx8qx_dcd.cfg.tmp"
+DCD_NAME_colibri-imx8qxp = "imx8qx_colibri-imx8qxp_dcd.cfg.tmp"
 
 DCD_BOARD ?= ""
 DCD_BOARD_apalis-imx8 = "apalis-imx8"
+DCD_BOARD_colibri-imx8qxp = "colibri-imx8qxp"
+
+# Cope with i.MX8 QXP A0 Silicon DCD name
+DCD_COPY = "false"
+DCD_COPY_mx8qxpa0 = "true"
 
 UBOOT_NAME = "u-boot-${MACHINE}.bin-${UBOOT_CONFIG}"
 BOOT_CONFIG_MACHINE = "${BOOT_NAME}-${MACHINE}-${UBOOT_CONFIG}.bin"
@@ -171,7 +177,7 @@ do_deploy () {
 
         install -m 0755 ${S}/${TOOLS_NAME} ${DEPLOYDIR}/${BOOT_TOOLS}
     else
-        if [ "${MACHINE}" = "imx8qxpa0mek" ]; then
+        if [ "${DCD_COPY}" = "true" ]; then
             install -m 0644 ${S}/${SOC_DIR}/${DCD_NAME} ${DEPLOYDIR}/${DEPLOYDIR_IMXBOOT}
         fi
         install -m 0644 ${S}/${SOC_DIR}/mx8qx-ahab-container.img ${DEPLOYDIR}/${DEPLOYDIR_IMXBOOT}
