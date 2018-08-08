@@ -8,6 +8,8 @@ SRCREV = "9e289f314eddb9d38cab73780b936acb30bb88b4"
 SRC_URI += " \
     file://0001-add-board-support-for-DCD-memory-timings.patch \
     file://0002-add-memory-timings-for-Apalis-iMX8.patch \
+    file://0001-mx8x-add-board-support-for-DCD-memory-timings.patch \
+    file://0002-imx8x-add-memory-timings-for-Colibri-iMX8X.patch \
 "
 
 DEPENDS = "zlib-native openssl-native"

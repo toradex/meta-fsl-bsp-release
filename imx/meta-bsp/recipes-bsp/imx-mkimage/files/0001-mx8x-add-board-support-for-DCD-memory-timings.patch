@@ -1,0 +1,29 @@
+From ddc3459116c0d69718f6b1eeb653547a0b09f9ed Mon Sep 17 00:00:00 2001
+From: Max Krummenacher <max.krummenacher@toradex.com>
+Date: Wed, 8 Aug 2018 17:32:46 +0200
+Subject: [PATCH 1/2] mx8x: add board support for DCD memory timings
+
+Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+---
+ iMX8QX/soc.mak | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/iMX8QX/soc.mak b/iMX8QX/soc.mak
+index ac7a7b0..94c0fd9 100755
+--- a/iMX8QX/soc.mak
++++ b/iMX8QX/soc.mak
+@@ -1,6 +1,11 @@
+ MKIMG = ../mkimage_imx8
++ifeq ($(DCD_BOARD),)
+ DCD_CFG_SRC = imx8qx_dcd_1.2GHz.cfg
+ DCD_CFG = imx8qx_dcd.cfg.tmp
++else
++DCD_CFG_SRC = imx8qx_$(DCD_BOARD)_dcd_1.2GHz.cfg
++DCD_CFG = imx8qx_$(DCD_BOARD)_dcd.cfg.tmp
++endif
+ 
+ DCD_CFG_16BIT_SRC = imx8qx_dcd_16bit_1.2GHz.cfg
+ DCD_16BIT_CFG = imx8qx_16bit_dcd.cfg.tmp
+-- 
+2.13.6
+
