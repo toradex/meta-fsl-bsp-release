@@ -1,15 +1,18 @@
 # Copyright (C) 2013-2016 Freescale Semiconductor
-# Copyright 2017 NXP
+# Copyright 2017-2018 NXP
+# Copyright 2018 Toradex AG
 # Released under the MIT license (see COPYING.MIT for the terms)
 
 SUMMARY = "Linux Kernel provided and supported by Toradex"
 DESCRIPTION = "Linux Kernel provided and supported by Toradex based on NXP"
 
 require recipes-kernel/linux/linux-imx.inc
-require recipes-kernel/linux/linux-dtb.inc
 require recipes-kernel/linux/linux-toradex_${PV}.inc
 
 DEPENDS += "lzop-native bc-native"
+
+FILESEXTRAPATHS_prepend := "${THISDIR}/linux-imx:"
+SRC_URI += "file://0001-ion-Add-userspace-header-ion.h-to-Linux-userspace.patch"
 
 DEFAULT_PREFERENCE = "1"
 
