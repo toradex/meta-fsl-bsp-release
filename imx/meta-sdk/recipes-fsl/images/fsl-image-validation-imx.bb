@@ -52,4 +52,5 @@ CORE_IMAGE_EXTRA_INSTALL += " \
     hdparm \
     tinymembench \
     util-linux \
+    linux-firmware-pcie8997 \
 "
