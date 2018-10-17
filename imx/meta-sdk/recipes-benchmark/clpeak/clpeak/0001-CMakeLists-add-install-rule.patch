@@ -1,0 +1,22 @@
+From 72a7027518afa64c06b3108b3b52607eb230f9d8 Mon Sep 17 00:00:00 2001
+From: Max Krummenacher <max.krummenacher@toradex.com>
+Date: Wed, 17 Oct 2018 09:31:08 +0000
+Subject: [PATCH] CMakeLists: add install rule
+
+Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+---
+ CMakeLists.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 7fb29b5..77f37a2 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -112,3 +112,4 @@ add_executable(clpeak ${SOURCE_FILES})
+ 
+ target_link_libraries(clpeak ${OPENCL_LIBS})
+ 
++install(TARGETS clpeak RUNTIME DESTINATION bin)
+-- 
+2.13.6
+
