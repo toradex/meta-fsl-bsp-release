@@ -1,52 +1,60 @@
 Apalis iMX8 Bring-Up based on 4.9.51_8qm_beta2 Release
 ======================================================
 
-  * Apalis iMX8 with NXP i.MX 8QuadMax SoC (apalis-imx8)
+  * This BSP version has not been tested with Apalis iMX8, use
+    4.9.51_8qm_beta2
+
+Colibri iMX8 Bring-Up based on rocko-4.9.123-2.3.0_8mm_ga Release
+=================================================================
+
+  * Colibri iMX8QXP with NXP i.MX 8QXP SoC (colibri-imx8qxp)
 
 Quick Start Guide
 -----------------
 See the i.MX Yocto Project User's Guide for instructions on installing repo.
 
 First install the i.MX Linux BSP repo
-$: repo init -u git://github.com/toradex/imx-manifest.git -b toradex-linux-morty -m toradex-4.9.51-8qm_beta2_bring_up.xml
+$: repo init -u git://github.com/toradex/imx-manifest.git -b toradex-linux-rocko -m toradex-4.9.123-2.3.0-8mm_ga.xml
 
 Download the Yocto Project Layers:
 $: repo sync
 
 If errors on repo init, remove the .repo directory and try repo init again.
 
-Run i.MX Linux Yocto Project Setup for Apalis iMX8:
-$: MACHINE=apalis-imx8 DISTRO=<distro name> source fsl-setup-release.sh -b <build directory>
+Run i.MX Linux Yocto Project Setup for Colibri iMX8QXP:
+$: MACHINE=colibri-imx8qxp DISTRO=<distro name> source fsl-setup-release.sh -b <build directory>
 
+Note that NXP dropped support for X11 on i.MX8, so we use XWayland here.
 E.g. the image Toradex used mostly so far:
-$: MACHINE=apalis-imx8 DISTRO=fsl-imx-x11 source fsl-setup-release.sh -b build-apalis/
+$: MACHINE=colibri-imx8qxp DISTRO=fsl-imx-xwayland source fsl-setup-release.sh -b build
 
 $: bitbake fsl-image-validation-imx
 
+The image will be in build/tmp/deploy/images/colibri-imx8qxp
 Copy the resulting image on a SD-card (replace /dev/sdx with /dev/mmcblkx if necessary)
-$: dd if=fsl-image-validation-imx-apalis-imx8.sdcard of=/dev/sdx bs=4M
+$: sudo umount /dev/sdx?
+$: bzcat fsl-image-validation-imx-colibri-imx8qxp.sdcard.bz2 | sudo dd of=/dev/sdg bs=4M
+$: sync
 
 Note: Only very early samples are strapped to boot from external SD! Future
-samples will boot from internal eMMC.
-
-To let Apalis iMX8 boot from DS-card Use the Apalis 8-bit SD/MMC slot or the
-SD-card slot on a Ixora V1.1A (Ixora V1.0 do not work!). This boots the SoC
-from SD-card.
+samples will boot from internal eMMC and will need a different deploy process.
 
 At this point known to be working:
-- HDMI/DVI (1080p resolution only, no EDID support)
-- LVDS dual-channel display (configured for a 1080p panel, disabled by default)
 - SD-card (used for root fs)
 - eMMC
-- Serial Ports
+- UART_A (Console, ttyLP3), UART_B (ttyLP0), UART_C (ttyLP2)
 - I2C
-- Gigabit Ethernet
-- Apalis USB Port 2/3 (USBH2/3)
-- Apalis USB Port 4 (USBH4, USB 3.0/SuperSpeed)
-- USB OTG (Host mode)
+- Ethernet
+- USBH
+- USBC OTG (Host mode)
 - On-Module Marvell Wi-Fi/Bluetooth chip (via PCIe, Wi-Fi only)
-- MIPI CSI2 (supported through CONFIG_MXC_CAMERA_OV5640_MIPI_NV. Defaults to
-  1080p mode. Frames stutter when using GStreamer 1.12.2 from BSP build)
 - Audio (SGTL5000)
+- Resistive touch controller
+- SPI (Clocking currently limits SCK to 12MHz or the process freezes)
+
+At this point known to be NOT working:
+- Parallel RGB
+- PWM
+- SPI with SoC IP (LPSPI)
 
 See also README-IMXBSP
