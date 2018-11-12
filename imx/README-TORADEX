@@ -55,6 +55,5 @@ At this point known to be working:
 At this point known to be NOT working:
 - Parallel RGB
 - PWM
-- SPI with SoC IP (LPSPI)
 
 See also README-IMXBSP
