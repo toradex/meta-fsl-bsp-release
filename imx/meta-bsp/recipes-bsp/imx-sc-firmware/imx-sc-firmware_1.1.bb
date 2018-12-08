@@ -10,8 +10,9 @@ inherit fsl-eula-unpack pkgconfig deploy
 
 SRC_URI = " \
      ${FSL_MIRROR}/${PN}-${PV}.bin;fsl-eula=true \
-     file://apalis-imx8-scfw-tcm.bin \
-     file://colibri-imx8qxp-scfw-tcm.bin \
+     file://mx8qm-apalis-scfw-tcm.bin \
+     file://mx8qm-a0-apalis-scfw-tcm.bin \
+     file://mx8qx-colibri-scfw-tcm.bin \
 "
 
 SRC_URI[md5sum] = "1ce2be635fc84385aa9a5e60a081f374"
@@ -23,8 +24,6 @@ BOARD_TYPE ?= "mek"
 SC_FIRMWARE_NAME ?= "mx8qm-mek-scfw-tcm.bin"
 SC_FIRMWARE_NAME_mx8qm = "mx8qm-${BOARD_TYPE}-scfw-tcm.bin"
 SC_FIRMWARE_NAME_mx8qxp = "mx8qx-${BOARD_TYPE}-scfw-tcm.bin"
-SC_FIRMWARE_NAME_apalis-imx8 = "apalis-imx8-scfw-tcm.bin"
-SC_FIRMWARE_NAME_colibri-imx8qxp = "colibri-imx8qxp-scfw-tcm.bin"
 symlink_name = "scfw_tcm.bin"
 
 SYSROOT_DIRS += "/boot"
