@@ -4,6 +4,6 @@
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
-SRC_URI_append = " file://Install-dma-buf-h.patch"
+#SRC_URI_append = " file://Install-dma-buf-h.patch"
 
 inherit fsl-vivante-kernel-driver-handler

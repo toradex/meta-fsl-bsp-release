@@ -12,7 +12,7 @@ require recipes-kernel/linux/linux-toradex_${PV}.inc
 DEPENDS += "lzop-native bc-native"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/linux-imx:"
-SRC_URI += "file://0001-ion-Add-userspace-header-ion.h-to-Linux-userspace.patch"
+SRC_URI += "file://0001-uapi-Add-ion.h-to-userspace.patch"
 
 DEFAULT_PREFERENCE = "1"
 

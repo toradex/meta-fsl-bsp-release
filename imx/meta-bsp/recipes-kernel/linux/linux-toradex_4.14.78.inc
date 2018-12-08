@@ -2,10 +2,11 @@
 # Copyright 2018 Toradex AG
 # Released under the MIT license (see COPYING.MIT for the terms)
 
-SRCBRANCH = "toradex_imx_4.9.123_imx8mm_ga-bring_up"
+SRCBRANCH = "toradex_imx_4.14.78_1.0.0_ga-bring_up"
 
 LOCALVERSION = "-${SRCBRANCH}"
 
 KERNEL_SRC ?= "git://git.toradex.com/linux-toradex.git;protocol=https"
 SRC_URI = "${KERNEL_SRC};branch=${SRCBRANCH}"
-SRCREV = "bfbd5dcc6088601c13fe07cc69b1c88994867d8a"
+# SRCREV = "492fd754d9bcc3998daff6c27fe03e069ceff2b5"
+SRCREV = "${AUTOREV}"
