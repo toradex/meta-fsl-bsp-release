@@ -39,4 +39,4 @@ FILES_${PN}-dbg += "${libdir}/alsa-lib/.debug"
 FILES_${PN}-dev += "${libdir}/alsa-lib/*.la"
 
 COMPATIBLE_MACHINE = "(mx6|mx7|mx8)"
-PACKAGE_ARCH = "${MACHINE_SOCARCH}"
+PACKAGE_ARCH = "${MACHINE_ARCH}"

@@ -9,6 +9,7 @@ LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
 
 DEPENDS  = "virtual/kernel alsa-lib libdrm"
+PACKAGE_ARCH = "${MACHINE_ARCH}"
 do_configure[depends] += "virtual/kernel:do_shared_workdir"
 DEPENDS_append_mx6 = " imx-lib"
 DEPENDS_append_mx7 = " imx-lib"

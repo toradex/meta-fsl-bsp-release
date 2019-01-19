@@ -18,6 +18,7 @@ SRCREV = "cec0ef39784a3acfd2b442d107f054c6ab10181e"
 DEPENDS += "gstreamer1.0-plugins-base virtual/kernel \
             ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'qtwayland', '', d)} \
 "
+PACKAGE_ARCH = "${MACHINE_ARCH}"
 # Make sure kernel sources are available
 do_configure[depends] += "virtual/kernel:do_shared_workdir"
 

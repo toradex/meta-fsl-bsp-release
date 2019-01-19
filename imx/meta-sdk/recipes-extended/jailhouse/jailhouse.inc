@@ -13,6 +13,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=9fa7f895f96bde2d47fd5b7d95b6ba4d \
                  file://driver/jailhouse.h;beginline=9;endline=36;md5=2825581c1666c44a17955dc574cfbfb3"
 
 DEPENDS = "virtual/kernel make-native python-mako-native dtc-native python3-mako"
+PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 S ="${WORKDIR}/git"
 

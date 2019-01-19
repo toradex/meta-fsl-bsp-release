@@ -12,3 +12,4 @@ EXTRA_OECONF_append = " --disable-introspection"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d"
 
+PACKAGE_ARCH = "${MACHINE_ARCH}"
