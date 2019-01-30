@@ -44,12 +44,14 @@ CORE_IMAGE_EXTRA_INSTALL += " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'weston-init', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11 wayland', 'weston-xwayland xterm', '', d)} \
     ${ERPC_COMPS} \
+    bash \
     clpeak \
     cpuburn-a53 \
+    devmem2 \
     hdparm  \
+    joe \
     less \
     stress \
-    hdparm \
     tinymembench \
     util-linux \
     linux-firmware-pcie8997 \
