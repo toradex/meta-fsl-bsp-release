@@ -8,5 +8,5 @@ LOCALVERSION = "-${SRCBRANCH}"
 
 KERNEL_SRC ?= "git://git.toradex.com/linux-toradex.git;protocol=https"
 SRC_URI = "${KERNEL_SRC};branch=${SRCBRANCH}"
-# SRCREV = "1500a096bf0f132e71b09d8972bdf0944e0cf312"
-SRCREV = "${AUTOREV}"
+SRCREV = "72711ba7c0904fecd514151a92b04fce93c4624d"
+# SRCREV = "${AUTOREV}"
