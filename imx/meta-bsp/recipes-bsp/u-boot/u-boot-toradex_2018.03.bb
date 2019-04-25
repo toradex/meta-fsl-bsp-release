@@ -15,7 +15,7 @@ UBOOT_SRC ?= "git://git.toradex.com/u-boot-toradex.git;protocol=https"
 SRC_URI = "${UBOOT_SRC};branch=${SRCBRANCH}"
 
 SRCBRANCH = "toradex_imx_v2018.03_4.14.78_1.0.0_ga-bringup"
-SRCREV = "b9a3c3a53a146883cda13c5f5869b0a8a07f9cb4"
+SRCREV = "d8881436c79c2ace86c6e06db23678c79b5d52f6"
 SRCREV_use-head-next = "${AUTOREV}"
 SRCBRANCH_use-head-next = "toradex_imx_v2018.03_4.14.78_1.0.0_ga-bringup"
 
